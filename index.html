@@ -131,7 +131,8 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   .blog-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--rad-lg); overflow: hidden; }
   .blog-card { text-decoration: none; display: flex; flex-direction: column; background: var(--deep); transition: background 0.2s; overflow: hidden; }
   .blog-card:hover { background: var(--mid); }
-  .blog-card-illustration { width: 100%; overflow: hidden; flex-shrink: 0; }
+  .blog-card-illustration { width: 100%; overflow: hidden; flex-shrink: 0; max-height: 160px; }
+  .blog-card-main .blog-card-illustration { max-height: 200px; }
   .blog-card-illustration svg { width: 100%; height: auto; display: block; }
   .blog-card-body { padding: 1.5rem; flex: 1; }
   .blog-card-tag { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose); margin-bottom: 8px; }
@@ -210,19 +211,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <div class="blog-grid">
       <a href="/blog/vinted-banna-intimo-usato.html" class="blog-card blog-card-main">
         <div class="blog-card-illustration">
-          <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
-            <rect width="300" height="180" fill="#1a1520"/>
-            <circle cx="80" cy="90" r="50" fill="none" stroke="#c9768a" stroke-width="1" opacity="0.3"/>
-            <circle cx="80" cy="90" r="35" fill="none" stroke="#c9768a" stroke-width="0.5" opacity="0.5"/>
-            <line x1="80" y1="40" x2="80" y2="140" stroke="#c9768a" stroke-width="0.5" opacity="0.4"/>
-            <line x1="30" y1="90" x2="130" y2="90" stroke="#c9768a" stroke-width="0.5" opacity="0.4"/>
-            <path d="M 150 60 L 260 60 M 150 80 L 240 80 M 150 100 L 250 100 M 150 120 L 220 120" stroke="#f0ebe8" stroke-width="1" opacity="0.15"/>
-            <rect x="148" y="52" width="4" height="4" fill="#c9768a" opacity="0.6"/>
-            <rect x="148" y="72" width="4" height="4" fill="#c9768a" opacity="0.4"/>
-            <rect x="148" y="92" width="4" height="4" fill="#c9768a" opacity="0.4"/>
-            <rect x="148" y="112" width="4" height="4" fill="#c9768a" opacity="0.3"/>
-            <text x="150" y="165" font-family="serif" font-size="10" fill="#c9768a" opacity="0.4">Piattaforme</text>
-          </svg>
+          <img src="/blog/images/envelope.jpg" alt="Busta sigillata anonima" style="width:100%;height:220px;object-fit:cover;display:block;" />
         </div>
         <div class="blog-card-body">
           <div class="blog-card-tag">Piattaforme</div>
@@ -234,13 +223,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
       <div class="blog-cards-side">
         <a href="/blog/vendere-indumenti-usati-anonimamente.html" class="blog-card blog-card-small">
           <div class="blog-card-illustration blog-card-illustration-sm">
-            <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-              <rect width="200" height="100" fill="#1a1520"/>
-              <circle cx="50" cy="50" r="30" fill="none" stroke="#e8a0b0" stroke-width="0.8" opacity="0.4"/>
-              <circle cx="50" cy="50" r="8" fill="#c9768a" opacity="0.3"/>
-              <path d="M 90 30 L 180 30 M 90 45 L 170 45 M 90 60 L 160 60 M 90 75 L 140 75" stroke="#f0ebe8" stroke-width="0.8" opacity="0.15"/>
-              <path d="M 20 50 L 80 50" stroke="#c9768a" stroke-width="0.5" stroke-dasharray="3,3" opacity="0.4"/>
-            </svg>
+            <img src="/blog/images/fabric.jpg" alt="Seta elegante discreta" style="width:100%;height:120px;object-fit:cover;display:block;" />
           </div>
           <div class="blog-card-body">
             <div class="blog-card-tag">Guida</div>
@@ -250,17 +233,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
         </a>
         <a href="/blog/spedire-anonimamente-locker-italia.html" class="blog-card blog-card-small">
           <div class="blog-card-illustration blog-card-illustration-sm">
-            <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-              <rect width="200" height="100" fill="#1a1520"/>
-              <rect x="20" y="30" width="50" height="40" rx="3" fill="none" stroke="#c9768a" stroke-width="0.8" opacity="0.5"/>
-              <rect x="30" y="40" width="12" height="12" rx="1" fill="#c9768a" opacity="0.3"/>
-              <rect x="48" y="40" width="12" height="12" rx="1" fill="#c9768a" opacity="0.2"/>
-              <path d="M 80 50 L 100 50" stroke="#e8a0b0" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
-              <polygon points="100,45 115,50 100,55" fill="#c9768a" opacity="0.4"/>
-              <rect x="120" y="30" width="50" height="40" rx="3" fill="none" stroke="#e8a0b0" stroke-width="0.8" opacity="0.3"/>
-              <rect x="130" y="40" width="30" height="4" rx="1" fill="#e8a0b0" opacity="0.2"/>
-              <rect x="130" y="50" width="20" height="4" rx="1" fill="#e8a0b0" opacity="0.15"/>
-            </svg>
+            <img src="/blog/images/locker.jpg" alt="Locker anonimo spedizione" style="width:100%;height:120px;object-fit:cover;display:block;" />
           </div>
           <div class="blog-card-body">
             <div class="blog-card-tag">Spedizioni</div>
