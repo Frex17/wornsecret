@@ -153,6 +153,15 @@
   .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
+  /* COUNTER */
+  .counter-bar { background: var(--deep); border: 1px solid var(--border2); border-radius: var(--rad-lg); padding: 1.5rem 2rem; margin: 2rem auto 0; max-width: 480px; }
+  .counter-label { font-size: 12px; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .counter-num { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--rose2); }
+  .counter-track { width: 100%; height: 4px; background: var(--surface); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
+  .counter-fill { height: 100%; background: linear-gradient(90deg, var(--rose), var(--rose2)); border-radius: 2px; transition: width 0.8s ease; }
+  .counter-milestone { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); }
+  .counter-milestone span.reached { color: var(--rose); }
+
   @media (max-width: 600px) {
     .nav-links { display: none; }
     .hero-stats { gap: 2rem; }
@@ -196,6 +205,20 @@
       <div class="stat">
         <div class="stat-num">🔒</div>
         <div class="stat-label">Pagamenti sicuri</div>
+      </div>
+    </div>
+
+    <div class="counter-bar">
+      <div class="counter-label">
+        <span>Iscritti alla beta</span>
+        <span class="counter-num" id="counterNum">0 / 20</span>
+      </div>
+      <div class="counter-track">
+        <div class="counter-fill" id="counterFill" style="width:0%"></div>
+      </div>
+      <div class="counter-milestone">
+        <span id="milestone1">🎯 20 — Primo traguardo</span>
+        <span id="milestone2">🚀 50 — Lancio pagamenti</span>
       </div>
     </div>
   </div>
@@ -444,12 +467,46 @@ function showSuccess(icon, title, text) {
   document.getElementById('successOverlay').classList.add('open');
 }
 
-function handleRegister() {
+const FORMSPREE_ID = 'xeedjjbd';
+const GOAL1 = 20, GOAL2 = 50;
+
+async function getCount() {
+  try { const r = await window.storage.get('ws_signups', true); return r ? parseInt(r.value)||0 : 0; } catch { return 0; }
+}
+async function incrementCount() {
+  const n = (await getCount()) + 1;
+  try { await window.storage.set('ws_signups', String(n), true); } catch {}
+  return n;
+}
+async function updateCounter() {
+  const count = await getCount();
+  const goal = count >= GOAL1 ? GOAL2 : GOAL1;
+  const pct = Math.min((count / goal) * 100, 100);
+  document.getElementById('counterNum').textContent = count + ' / ' + goal;
+  document.getElementById('counterFill').style.width = pct + '%';
+  if (count >= GOAL1) document.getElementById('milestone1').classList.add('reached');
+  if (count >= GOAL2) document.getElementById('milestone2').classList.add('reached');
+}
+async function submitToFormspree(data) {
+  if (FORMSPREE_ID === 'INSERISCI_QUI_IL_TUO_ID') return;
+  try { await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, { method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(data) }); } catch {}
+}
+
+async function handleRegister() {
   const u = document.getElementById('regUsername').value.trim();
   const e = document.getElementById('regEmail').value.trim();
   if (!u || !e) { alert('Inserisci username e email per continuare.'); return; }
+  const btn = document.querySelector('#registerForm .btn-full');
+  btn.innerHTML = '<div class="spinner"></div>'; btn.disabled = true;
+  await submitToFormspree({ tipo: 'registrazione', username: u, email: e });
+  const n = await incrementCount();
+  await updateCounter();
+  btn.innerHTML = 'Crea account gratuito'; btn.disabled = false;
   closeModal('authOverlay');
-  showSuccess('🎉', 'Benvenuto, @' + u + '!', 'Il tuo account è stato creato. Ti avviseremo via email quando i pagamenti saranno attivi e potrai completare le transazioni.');
+  let msg = 'Il tuo account è stato creato. Ti avviseremo quando i pagamenti saranno attivi.';
+  if (n === GOAL1) msg = `🎉 Sei il ${n}° iscritto — primo traguardo raggiunto!`;
+  if (n === GOAL2) msg = `🚀 Sei il ${n}° iscritto — pronti al lancio!`;
+  showSuccess('🎉', 'Benvenuto, @' + u + '!', msg);
 }
 
 function handleLogin() {
@@ -457,13 +514,19 @@ function handleLogin() {
   showSuccess('👋', 'Bentornato!', 'Sei entrato nel tuo account WornSecret.');
 }
 
-function handleSell() {
+async function handleSell() {
   const title = document.getElementById('sellTitle').value.trim();
   const email = document.getElementById('sellEmail').value.trim();
   const price = document.getElementById('sellPrice').value;
+  const cat = document.getElementById('sellCat').value;
+  const desc = document.getElementById('sellDesc').value.trim();
   if (!title || !email) { alert('Inserisci almeno il titolo e la tua email.'); return; }
+  const btn = document.querySelector('#sellOverlay .btn-full');
+  btn.innerHTML = '<div class="spinner"></div>'; btn.disabled = true;
+  await submitToFormspree({ tipo: 'annuncio', titolo: title, prezzo: price+'€', categoria: cat, descrizione: desc, email });
+  btn.innerHTML = 'Pubblica annuncio'; btn.disabled = false;
   closeModal('sellOverlay');
-  showSuccess('✅', 'Annuncio pubblicato!', `Il tuo annuncio "${title}" è ora visibile agli utenti registrati. Ti contatteremo a ${email} quando qualcuno sarà interessato all'acquisto.`);
+  showSuccess('✅', 'Annuncio pubblicato!', `Il tuo annuncio "${title}" è ora visibile. Ti contatteremo a ${email} quando qualcuno sarà interessato.`);
 }
 
 function previewImg(event) {
@@ -479,6 +542,50 @@ function previewImg(event) {
   };
   reader.readAsDataURL(file);
 }
+
+function openAuth() { document.getElementById('authOverlay').classList.add('open'); }
+function openSell() { document.getElementById('sellOverlay').classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function closeOnOverlay(e, id) { if (e.target.id === id) closeModal(id); }
+function switchAuthTab(tab) {
+  document.querySelectorAll('.tab-modal').forEach((t,i) => t.classList.toggle('active', ['register','login'][i] === tab));
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+}
+function showSuccess(icon, title, text) {
+  document.getElementById('successContent').innerHTML = `<div class="success-icon">${icon}</div><div class="success-title">${title}</div><p class="success-text">${text}</p>`;
+  document.getElementById('successOverlay').classList.add('open');
+}
+
+const emojis = ['🧦','👙','🩱','👗','🩲','🧣'];
+const listings = [
+  { title: 'Calze sportive usate', price: 12, seller: 'shadow_x', cat: 'Calze', blur: false },
+  { title: 'Mutandine cotone', price: 18, seller: 'velvet_k', cat: 'Mutande', blur: true },
+  { title: 'Collant 40 denari', price: 9, seller: 'noir_anon', cat: 'Collant', blur: true },
+  { title: 'Calze lunghe lana', price: 15, seller: 'secret_m', cat: 'Calze', blur: false },
+  { title: 'Set intimo usato', price: 25, seller: 'rose_w', cat: 'Altro', blur: true },
+  { title: 'Calzini bianchi', price: 8, seller: 'anon_7734', cat: 'Calze', blur: false },
+];
+function renderListings() {
+  document.getElementById('listingsGrid').innerHTML = listings.map((l,i) => `
+    <div class="listing-card" onclick="openAuth()">
+      <div class="listing-img">
+        <span class="listing-img-placeholder">${emojis[i%emojis.length]}</span>
+        ${l.blur?`<div class="listing-blur"><span class="listing-lock">🔒</span></div>`:''}
+      </div>
+      <div class="listing-info">
+        <div class="listing-tag">${l.cat}</div>
+        <div class="listing-title">${l.title}</div>
+        <div class="listing-meta">
+          <div class="listing-price">€${l.price}</div>
+          <div class="listing-seller">@${l.seller}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+renderListings();
+updateCounter();
 </script>
 </body>
 </html>
