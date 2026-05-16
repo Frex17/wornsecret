@@ -120,7 +120,39 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 .success-text { font-size: 14px; color: var(--text2); line-height: 1.6; }
 .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; }
 @keyframes spin { to{transform:rotate(360deg);} }
-@media(max-width:600px){ .nav-links{display:none;} .hero-stats{gap:2rem;} .form-row{grid-template-columns:1fr;} }
+@media(max-width:700px){ .nav-links{display:none;} .hero-stats{gap:2rem;} .form-row{grid-template-columns:1fr;} .blog-grid{grid-template-columns:1fr;} .reviews-grid{grid-template-columns:1fr;} .review-card{transform:none !important;} }
+
+  /* BLOG PREVIEW */
+  .blog-preview { padding: 6rem 2rem; background: var(--noir); }
+  .blog-preview-inner { max-width: 1000px; margin: 0 auto; }
+  .blog-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+  .blog-all-link { font-size: 13px; color: var(--rose); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; white-space: nowrap; }
+  .blog-all-link:hover { color: var(--rose2); }
+  .blog-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--rad-lg); overflow: hidden; }
+  .blog-card { text-decoration: none; display: flex; flex-direction: column; background: var(--deep); transition: background 0.2s; overflow: hidden; }
+  .blog-card:hover { background: var(--mid); }
+  .blog-card-illustration { width: 100%; overflow: hidden; flex-shrink: 0; }
+  .blog-card-illustration svg { width: 100%; height: auto; display: block; }
+  .blog-card-body { padding: 1.5rem; flex: 1; }
+  .blog-card-tag { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose); margin-bottom: 8px; }
+  .blog-card-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--text); line-height: 1.3; margin-bottom: 10px; }
+  .blog-card-title-sm { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 300; color: var(--text); line-height: 1.3; margin-bottom: 8px; }
+  .blog-card-excerpt { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 12px; }
+  .blog-card-meta { font-size: 11px; color: var(--text3); }
+  .blog-cards-side { display: flex; flex-direction: column; }
+  .blog-card-small { border-top: 1px solid var(--border); }
+  .blog-card-small:first-child { border-top: none; }
+
+  /* REVIEWS */
+  .reviews-section { padding: 6rem 2rem; background: var(--deep); }
+  .reviews-inner { max-width: 1000px; margin: 0 auto; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .review-card { background: var(--noir); border: 1px solid var(--border2); border-radius: var(--rad-lg); padding: 1.75rem; transform: rotate(var(--r, 0deg)); transition: transform 0.3s; }
+  .review-card:hover { transform: rotate(0deg) translateY(-4px); }
+  .review-stars { color: var(--rose); font-size: 14px; letter-spacing: 2px; margin-bottom: 1rem; }
+  .review-text { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 1.25rem; font-style: italic; }
+  .review-author { font-size: 12px; color: var(--text3); letter-spacing: 0.05em; }
+
 </style>
 </head>
 <body>
