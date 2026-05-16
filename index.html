@@ -318,18 +318,13 @@ function getCount() {
     .catch(function() { return parseInt(localStorage.getItem('ws_signups') || '0'); });
 }
 function incrementCount() {
-  return fetch(SB_URL + '/rest/v1/counter?select=id,value&limit=1', { headers: sbHeaders() })
+  return fetch(SB_URL + '/rest/v1/rpc/increment_counter', {
+    method: 'POST', headers: sbHeaders(), body: JSON.stringify({})
+  })
     .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(d) {
-      if (!d || !d[0]) {
-        var local = parseInt(localStorage.getItem('ws_signups') || '0') + 1;
-        localStorage.setItem('ws_signups', String(local));
-        return local;
-      }
-      var id = d[0].id, next = d[0].value + 1;
-      return fetch(SB_URL + '/rest/v1/counter?id=eq.' + id, {
-        method: 'PATCH', headers: sbHeaders(), body: JSON.stringify({ value: next })
-      }).then(function() { return next; });
+    .then(function(val) {
+      if (val === null || val === undefined) throw new Error('no val');
+      return val;
     })
     .catch(function() {
       var local = parseInt(localStorage.getItem('ws_signups') || '0') + 1;
