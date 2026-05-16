@@ -471,11 +471,11 @@ const FORMSPREE_ID = 'xeedjjbd';
 const GOAL1 = 20, GOAL2 = 50;
 
 async function getCount() {
-  try { const r = await window.storage.get('ws_signups', true); return r ? parseInt(r.value)||0 : 0; } catch { return 0; }
+  try { return parseInt(localStorage.getItem('ws_signups') || '0'); } catch { return 0; }
 }
 async function incrementCount() {
   const n = (await getCount()) + 1;
-  try { await window.storage.set('ws_signups', String(n), true); } catch {}
+  try { localStorage.setItem('ws_signups', String(n)); } catch {}
   return n;
 }
 async function updateCounter() {
