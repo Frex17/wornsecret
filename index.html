@@ -275,8 +275,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 <script>
 var FORMSPREE_ID = 'xeedjjbd';
 var GOAL1 = 20, GOAL2 = 50;
-var SB_URL = 'https://bnbdzumwxubrwtxgfvyp.supabase.co';
-var SB_KEY = 'sb_publishable_cs-E8YJO7fmJdeo_uNYPiw_oU8cw7qt';
+
 var LISTINGS = [
   { title: 'Calze sportive usate', price: 12, seller: 'shadow_x', cat: 'Calze', blur: false },
   { title: 'Mutandine cotone', price: 18, seller: 'velvet_k', cat: 'Mutande', blur: true },
@@ -308,23 +307,18 @@ function showSuccess(icon, title, text) {
   document.getElementById('successOverlay').classList.add('open');
 }
 
-function sbHeaders() {
-  return { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
-}
 function getCount() {
-  return fetch(SB_URL + '/rest/v1/counter?select=id,value&limit=1', { headers: sbHeaders() })
-    .then(function(r) { return r.ok ? r.json() : []; })
-    .then(function(d) { return d && d[0] ? d[0].value : 0; })
+  return fetch('https://api.countapi.xyz/get/wornsecret/signups')
+    .then(function(r) { return r.json(); })
+    .then(function(d) { return d.value || 0; })
     .catch(function() { return parseInt(localStorage.getItem('ws_signups') || '0'); });
 }
 function incrementCount() {
-  return fetch(SB_URL + '/rest/v1/rpc/increment_counter', {
-    method: 'POST', headers: sbHeaders(), body: JSON.stringify({})
-  })
-    .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(val) {
-      if (val === null || val === undefined) throw new Error('no val');
-      return val;
+  return fetch('https://api.countapi.xyz/hit/wornsecret/signups')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      localStorage.setItem('ws_signups', String(d.value));
+      return d.value;
     })
     .catch(function() {
       var local = parseInt(localStorage.getItem('ws_signups') || '0') + 1;
