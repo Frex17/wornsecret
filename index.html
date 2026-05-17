@@ -187,7 +187,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <div class="counter-bar">
       <div class="counter-label">
         <span>Iscritti alla beta</span>
-        <span class="counter-num" id="counterNum">0 / 20</span>
+        <span class="counter-num" id="counterNum">... / 20</span>
       </div>
       <div class="counter-track"><div class="counter-fill" id="counterFill" style="width:0%"></div></div>
       <div class="counter-milestone">
@@ -417,23 +417,16 @@ function showSuccess(icon, title, text) {
 }
 
 function getCount() {
-  return fetch('https://api.countapi.xyz/get/wornsecret/signups')
+  return fetch('/api/counter')
     .then(function(r) { return r.json(); })
-    .then(function(d) { return d.value || 0; })
-    .catch(function() { return parseInt(localStorage.getItem('ws_signups') || '0'); });
+    .then(function(d) { return typeof d.value === 'number' ? d.value : 0; })
+    .catch(function() { return 0; });
 }
 function incrementCount() {
-  return fetch('https://api.countapi.xyz/hit/wornsecret/signups')
+  return fetch('/api/counter', { method: 'POST' })
     .then(function(r) { return r.json(); })
-    .then(function(d) {
-      localStorage.setItem('ws_signups', String(d.value));
-      return d.value;
-    })
-    .catch(function() {
-      var local = parseInt(localStorage.getItem('ws_signups') || '0') + 1;
-      localStorage.setItem('ws_signups', String(local));
-      return local;
-    });
+    .then(function(d) { return typeof d.value === 'number' ? d.value : 1; })
+    .catch(function() { return 1; });
 }
 function updateCounter() {
   getCount().then(function(count) {
