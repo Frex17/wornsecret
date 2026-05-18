@@ -156,7 +156,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   @media(max-width:700px){
     .reviews-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; gap: 1rem; padding-bottom: 1rem; scrollbar-width: none; }
     .reviews-grid::-webkit-scrollbar { display: none; }
-    .review-card { min-width: 80vw; scroll-snap-align: start; transform: none !important; flex-shrink: 0; }
+    .review-card { min-width: 75vw; max-width: 300px; scroll-snap-align: start; transform: none !important; flex-shrink: 0; }
   }
 
 
@@ -288,7 +288,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   <h2 class="section-title">Semplice, sicuro,<br>senza compromessi</h2>
   <p class="section-sub">Tre passi per comprare o vendere in totale discrezione.</p>
   <div class="steps">
-    <div class="step"><div class="step-num">01</div><div class="step-title">Crea il tuo profilo</div><div class="step-desc">Solo un'email e uno username. Nessun nome reale, nessun dato personale visibile agli altri utenti.</div></div>
+    <div class="step"><div class="step-num">01</div><div class="step-title">Crea il tuo profilo</div><div class="step-desc">Solo una email e uno username. Nessun nome reale, nessun dato personale visibile agli altri utenti.</div></div>
     <div class="step"><div class="step-num">02</div><div class="step-title">Pubblica o acquista</div><div class="step-desc">Fotografa e pubblica il tuo annuncio in 2 minuti. Oppure sfoglia e acquista quello che cerchi.</div></div>
     <div class="step"><div class="step-num">03</div><div class="step-title">Spedizione anonima</div><div class="step-desc">Il pacco viene spedito tramite locker o punto di raccolta. Nessun indirizzo di casa esposto.</div></div>
   </div>
@@ -535,6 +535,8 @@ function renderListings() {
 renderListings();
 updateCounter();
 
+renderListings();
+updateCounter();
 var LANG = 'it';
 var T = {
   it: {
@@ -548,7 +550,7 @@ var T = {
     blog_tag: 'Dal blog', blog_title: 'Guide & Consigli', blog_all: 'Tutti gli articoli →',
     reviews_tag: 'Recensioni', reviews_title: 'Cosa dicono i primi utenti', reviews_sub: 'Feedback reali dai primi iscritti alla beta.',
     how_tag: 'Come funziona', how_title: 'Semplice, sicuro,<br>senza compromessi', how_sub: 'Tre passi per comprare o vendere in totale discrezione.',
-    step1_title: 'Crea il tuo profilo', step1_desc: 'Solo un'email e uno username. Nessun nome reale, nessun dato personale visibile agli altri utenti.',
+    step1_title: 'Crea il tuo profilo', step1_desc: 'Solo una email e uno username. Nessun nome reale, nessun dato personale visibile agli altri utenti.',
     step2_title: 'Pubblica o acquista', step2_desc: 'Fotografa e pubblica il tuo annuncio in 2 minuti. Oppure sfoglia e acquista quello che cerchi.',
     step3_title: 'Spedizione anonima', step3_desc: 'Il pacco viene spedito tramite locker o punto di raccolta. Nessun indirizzo di casa esposto.',
     listings_tag: 'Annunci recenti', listings_title: 'Cosa trovi su WornSecret', listings_sub: 'Il marketplace è in fase beta. Registrati per vedere tutti i contenuti.',
@@ -575,9 +577,9 @@ var T = {
     reviews_tag: 'Reviews', reviews_title: 'What early users say', reviews_sub: 'Real feedback from our first beta members.',
     how_tag: 'How it works', how_title: 'Simple, safe,<br>no compromises', how_sub: 'Three steps to buy or sell with complete discretion.',
     step1_title: 'Create your profile', step1_desc: 'Just an email and a username. No real name, no personal data visible to other users.',
-    step2_title: 'List or buy', step2_desc: 'Photograph and list your item in 2 minutes. Or browse and buy what you're looking for.',
+    step2_title: 'List or buy', step2_desc: 'Photograph and list your item in 2 minutes. Or browse and buy what you are looking for.',
     step3_title: 'Anonymous shipping', step3_desc: 'Packages are shipped via locker or pickup point. No home address exposed.',
-    listings_tag: 'Recent listings', listings_title: 'What you'll find on WornSecret', listings_sub: 'The marketplace is in beta. Sign up to see all content.',
+    listings_tag: 'Recent listings', listings_title: 'What you will find on WornSecret', listings_sub: 'The marketplace is in beta. Sign up to see all content.',
     listings_btn: 'Sign up to see all listings',
     why_tag: 'Why WornSecret', why_title: 'Privacy first,<br>always', why_sub: 'Built for those who want discretion without sacrificing security.',
     cta_tag: 'Early access', cta_title: 'Join the<br><em style="font-family:'Cormorant Garamond',serif;color:var(--rose2)">community</em>',
