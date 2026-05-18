@@ -153,7 +153,15 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   .review-stars { color: var(--rose); font-size: 14px; letter-spacing: 2px; margin-bottom: 1rem; }
   .review-text { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 1.25rem; font-style: italic; }
   .review-author { font-size: 12px; color: var(--text3); letter-spacing: 0.05em; }
+  @media(max-width:700px){
+    .reviews-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; gap: 1rem; padding-bottom: 1rem; scrollbar-width: none; }
+    .reviews-grid::-webkit-scrollbar { display: none; }
+    .review-card { min-width: 80vw; scroll-snap-align: start; transform: none !important; flex-shrink: 0; }
+  }
 
+
+  .btn-lang { padding: 6px 12px; border: 1px solid var(--border2); border-radius: var(--rad); font-size: 12px; color: var(--text2); background: none; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .btn-lang:hover { border-color: var(--rose); color: var(--rose); }
 </style>
 </head>
 <body>
@@ -166,7 +174,10 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <a href="/blog">Blog</a>
     <a href="#" onclick="openSell();return false;">Vendi</a>
   </div>
-  <button class="btn-nav" onclick="openAuth()">Accedi</button>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <button class="btn-lang" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="btn-nav" id="authBtn" onclick="openAuth()">Accedi</button>
+  </div>
 </nav>
 
 <section class="hero">
@@ -523,6 +534,142 @@ function renderListings() {
 
 renderListings();
 updateCounter();
+
+var LANG = 'it';
+var T = {
+  it: {
+    nav_how: 'Come funziona', nav_listings: 'Annunci', nav_blog: 'Blog', nav_sell: 'Vendi', nav_login: 'Accedi',
+    badge: 'Beta — Accesso anticipato',
+    hero_title: 'Il marketplace<br><em>discreto</em><br>per indumenti usati',
+    hero_sub: 'Compra e vendi in totale anonimato. Solo username, nessun dato personale esposto. La privacy che meriti.',
+    cta_sell: 'Inizia a vendere', cta_browse: 'Sfoglia annunci',
+    stat1: 'Anonimo', stat2: 'Per iscriversi', stat3: 'Pagamenti sicuri',
+    counter_label: 'Iscritti alla beta',
+    blog_tag: 'Dal blog', blog_title: 'Guide & Consigli', blog_all: 'Tutti gli articoli →',
+    reviews_tag: 'Recensioni', reviews_title: 'Cosa dicono i primi utenti', reviews_sub: 'Feedback reali dai primi iscritti alla beta.',
+    how_tag: 'Come funziona', how_title: 'Semplice, sicuro,<br>senza compromessi', how_sub: 'Tre passi per comprare o vendere in totale discrezione.',
+    step1_title: 'Crea il tuo profilo', step1_desc: 'Solo un'email e uno username. Nessun nome reale, nessun dato personale visibile agli altri utenti.',
+    step2_title: 'Pubblica o acquista', step2_desc: 'Fotografa e pubblica il tuo annuncio in 2 minuti. Oppure sfoglia e acquista quello che cerchi.',
+    step3_title: 'Spedizione anonima', step3_desc: 'Il pacco viene spedito tramite locker o punto di raccolta. Nessun indirizzo di casa esposto.',
+    listings_tag: 'Annunci recenti', listings_title: 'Cosa trovi su WornSecret', listings_sub: 'Il marketplace è in fase beta. Registrati per vedere tutti i contenuti.',
+    listings_btn: 'Registrati per vedere tutti gli annunci',
+    why_tag: 'Perché WornSecret', why_title: 'La privacy prima<br>di tutto', why_sub: 'Costruito per chi vuole discrezione senza rinunciare alla sicurezza.',
+    cta_tag: 'Accesso anticipato', cta_title: 'Entra nella<br><em style="font-family:'Cormorant Garamond',serif;color:var(--rose2)">community</em>',
+    cta_sub: 'WornSecret è in beta. Registrati ora per accedere per primo.', cta_btn: 'Crea il tuo account gratuito',
+    modal_welcome: 'Benvenuto', modal_sub: 'Accedi o crea il tuo account anonimo',
+    tab_register: 'Registrati', tab_login: 'Accedi',
+    label_username: 'Username', label_email: 'Email', label_password: 'Password',
+    btn_register: 'Crea account gratuito', btn_login: 'Accedi',
+    sell_title: 'Pubblica un annuncio', sell_sub: 'Compila i dettagli del tuo articolo',
+    footer_text: 'WornSecret è una piattaforma di compravendita di indumenti usati tra privati.'
+  },
+  en: {
+    nav_how: 'How it works', nav_listings: 'Listings', nav_blog: 'Blog', nav_sell: 'Sell', nav_login: 'Sign in',
+    badge: 'Beta — Early access',
+    hero_title: 'The <em>discreet</em><br>marketplace for<br>used clothing',
+    hero_sub: 'Buy and sell in complete anonymity. Username only, no personal data exposed. The privacy you deserve.',
+    cta_sell: 'Start selling', cta_browse: 'Browse listings',
+    stat1: 'Anonymous', stat2: 'To join', stat3: 'Secure payments',
+    counter_label: 'Beta members',
+    blog_tag: 'From the blog', blog_title: 'Guides & Tips', blog_all: 'All articles →',
+    reviews_tag: 'Reviews', reviews_title: 'What early users say', reviews_sub: 'Real feedback from our first beta members.',
+    how_tag: 'How it works', how_title: 'Simple, safe,<br>no compromises', how_sub: 'Three steps to buy or sell with complete discretion.',
+    step1_title: 'Create your profile', step1_desc: 'Just an email and a username. No real name, no personal data visible to other users.',
+    step2_title: 'List or buy', step2_desc: 'Photograph and list your item in 2 minutes. Or browse and buy what you're looking for.',
+    step3_title: 'Anonymous shipping', step3_desc: 'Packages are shipped via locker or pickup point. No home address exposed.',
+    listings_tag: 'Recent listings', listings_title: 'What you'll find on WornSecret', listings_sub: 'The marketplace is in beta. Sign up to see all content.',
+    listings_btn: 'Sign up to see all listings',
+    why_tag: 'Why WornSecret', why_title: 'Privacy first,<br>always', why_sub: 'Built for those who want discretion without sacrificing security.',
+    cta_tag: 'Early access', cta_title: 'Join the<br><em style="font-family:'Cormorant Garamond',serif;color:var(--rose2)">community</em>',
+    cta_sub: 'WornSecret is in beta. Sign up now to be among the first.', cta_btn: 'Create your free account',
+    modal_welcome: 'Welcome', modal_sub: 'Sign in or create your anonymous account',
+    tab_register: 'Sign up', tab_login: 'Sign in',
+    label_username: 'Username', label_email: 'Email', label_password: 'Password',
+    btn_register: 'Create free account', btn_login: 'Sign in',
+    sell_title: 'Post a listing', sell_sub: 'Fill in your item details',
+    footer_text: 'WornSecret is a peer-to-peer marketplace for used clothing.'
+  }
+};
+
+function toggleLang() {
+  LANG = LANG === 'it' ? 'en' : 'it';
+  document.getElementById('langBtn').textContent = LANG === 'it' ? 'EN' : 'IT';
+  applyLang();
+}
+
+function t(key) { return T[LANG][key] || T['it'][key]; }
+
+function applyLang() {
+  var l = T[LANG];
+  // Navbar
+  var navLinks = document.querySelectorAll('.nav-links a');
+  if (navLinks[0]) navLinks[0].textContent = l.nav_how;
+  if (navLinks[1]) navLinks[1].textContent = l.nav_listings;
+  if (navLinks[2]) navLinks[2].textContent = l.nav_blog;
+  if (navLinks[3]) navLinks[3].textContent = l.nav_sell;
+  document.getElementById('authBtn').textContent = l.nav_login;
+  // Hero
+  var badge = document.querySelector('.hero-badge');
+  if (badge) badge.innerHTML = badge.innerHTML.replace(/Beta.*?(anticipato|access)/i, l.badge);
+  document.querySelector('.hero-title').innerHTML = l.hero_title;
+  document.querySelector('.hero-sub').textContent = l.hero_sub;
+  var ctas = document.querySelectorAll('.hero-ctas button');
+  if (ctas[0]) ctas[0].textContent = l.cta_sell;
+  if (ctas[1]) ctas[1].textContent = l.cta_browse;
+  var stats = document.querySelectorAll('.stat-label');
+  if (stats[0]) stats[0].textContent = l.stat1;
+  if (stats[1]) stats[1].textContent = l.stat2;
+  if (stats[2]) stats[2].textContent = l.stat3;
+  document.querySelector('.counter-label span').textContent = l.counter_label;
+  // Blog
+  var blogSection = document.querySelector('.blog-preview');
+  if (blogSection) {
+    blogSection.querySelector('.section-tag').textContent = l.blog_tag;
+    blogSection.querySelector('.section-title').textContent = l.blog_title;
+    blogSection.querySelector('.blog-all-link').textContent = l.blog_all;
+  }
+  // Reviews
+  var revSection = document.querySelector('.reviews-section');
+  if (revSection) {
+    revSection.querySelector('.section-tag').textContent = l.reviews_tag;
+    revSection.querySelector('.section-title').textContent = l.reviews_title;
+    revSection.querySelector('.section-sub').textContent = l.reviews_sub;
+  }
+  // How it works
+  var howSection = document.getElementById('come-funziona');
+  if (howSection) {
+    howSection.querySelector('.section-tag').textContent = l.how_tag;
+    howSection.querySelector('.section-title').innerHTML = l.how_title;
+    howSection.querySelector('.section-sub').textContent = l.how_sub;
+    var steps = howSection.querySelectorAll('.step');
+    if (steps[0]) { steps[0].querySelector('.step-title').textContent = l.step1_title; steps[0].querySelector('.step-desc').textContent = l.step1_desc; }
+    if (steps[1]) { steps[1].querySelector('.step-title').textContent = l.step2_title; steps[1].querySelector('.step-desc').textContent = l.step2_desc; }
+    if (steps[2]) { steps[2].querySelector('.step-title').textContent = l.step3_title; steps[2].querySelector('.step-desc').textContent = l.step3_desc; }
+  }
+  // Listings
+  var listSection = document.querySelector('.listings-section');
+  if (listSection) {
+    listSection.querySelector('.section-tag').textContent = l.listings_tag;
+    listSection.querySelector('.section-title').textContent = l.listings_title;
+    listSection.querySelector('.section-sub').textContent = l.listings_sub;
+    var listBtn = listSection.querySelector('.btn-primary');
+    if (listBtn) listBtn.textContent = l.listings_btn;
+  }
+  // CTA section
+  var ctaSection = document.querySelector('.cta-section');
+  if (ctaSection) {
+    ctaSection.querySelector('.section-tag').textContent = l.cta_tag;
+    ctaSection.querySelector('.cta-title').innerHTML = l.cta_title;
+    ctaSection.querySelector('.cta-sub').textContent = l.cta_sub;
+    ctaSection.querySelector('.btn-primary').textContent = l.cta_btn;
+  }
+  // Footer
+  document.querySelector('.footer-text').textContent = l.footer_text;
+  // Modals
+  document.querySelector('.modal-title').textContent = l.modal_welcome;
+  document.querySelector('.modal-sub').textContent = l.modal_sub;
+}
+
 </script>
 </body>
 </html>
