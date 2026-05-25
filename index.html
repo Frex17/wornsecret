@@ -183,7 +183,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <div class="hero-badge">Beta — Accesso anticipato</div>
+    <div class="hero-badge"><span class="hero-badge-text">Beta — Accesso anticipato</span></div>
     <h1 class="hero-title">Il marketplace<br><em>discreto</em><br>per indumenti usati</h1>
     <p class="hero-sub">Compra e vendi in totale anonimato. Solo username, nessun dato personale esposto. La privacy che meriti.</p>
     <div class="hero-ctas">
@@ -611,8 +611,8 @@ function applyLang() {
   if (navLinks[3]) navLinks[3].textContent = l.nav_sell;
   document.getElementById('authBtn').textContent = l.nav_login;
   // Hero
-  var badge = document.querySelector('.hero-badge');
-  if (badge) badge.innerHTML = badge.innerHTML.replace(/Beta.*?(anticipato|access)/i, l.badge);
+  var badgeSpan = document.querySelector('.hero-badge-text');
+  if (badgeSpan) badgeSpan.textContent = l.badge;
   document.querySelector('.hero-title').innerHTML = l.hero_title;
   document.querySelector('.hero-sub').textContent = l.hero_sub;
   var ctas = document.querySelectorAll('.hero-ctas button');
