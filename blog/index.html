@@ -21,95 +21,118 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.15em; color: var(--text); text-decoration: none; }
 .nav-logo span { color: var(--rose); }
 .nav-links { display: flex; align-items: center; gap: 2rem; }
-.nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+.nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; letter-spacing: 0.05em; }
 .nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--rose); }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.btn-lang { padding: 6px 12px; border: 1px solid var(--border2); border-radius: var(--rad); font-size: 12px; color: var(--text2); background: none; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+.btn-lang:hover { border-color: var(--rose); color: var(--rose); }
 .btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; }
-.page { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+.btn-nav:hover { background: var(--rose); color: #fff; }
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 110; }
+.hamburger span { width: 24px; height: 2px; background: var(--text); transition: all 0.3s; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu { position: fixed; inset: 0; background: var(--noir); z-index: 105; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.mobile-menu.open { opacity: 1; pointer-events: auto; }
+.mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
+.mobile-menu a:hover { color: var(--rose); }
+.mobile-menu .btn-lang { font-size: 1rem; padding: 10px 24px; }
+.page { max-width: 1000px; margin: 0 auto; padding: 8rem 2rem 4rem; }
 .page-tag { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rose); margin-bottom: 1rem; }
 .page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px,6vw,56px); font-weight: 300; line-height: 1.1; margin-bottom: 1rem; }
-.page-sub { font-size: 15px; color: var(--text2); line-height: 1.7; margin-bottom: 3rem; font-weight: 300; }
-.articles { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--rad-lg); overflow: hidden; }
-.article-card { background: var(--deep); padding: 2rem; text-decoration: none; display: block; transition: background 0.2s; }
-.article-card:hover { background: var(--mid); }
+.page-sub { font-size: 15px; color: var(--text2); line-height: 1.7; margin-bottom: 3rem; font-weight: 300; max-width: 640px; }
+.articles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+.article-card { background: var(--deep); border: 1px solid var(--border); border-radius: var(--rad-lg); text-decoration: none; display: flex; flex-direction: column; transition: transform 0.25s, border-color 0.25s; overflow: hidden; }
+.article-card:hover { transform: translateY(-4px); border-color: var(--border2); }
+.article-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+.article-card-body { padding: 1.5rem; display: flex; flex-direction: column; flex: 1; }
 .article-tag { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose); margin-bottom: 10px; }
 .article-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--text); margin-bottom: 8px; line-height: 1.3; }
-.article-excerpt { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 12px; }
+.article-excerpt { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 12px; flex: 1; }
 .article-meta { font-size: 12px; color: var(--text3); display: flex; align-items: center; gap: 12px; }
 .article-meta span { display: flex; align-items: center; gap: 4px; }
 footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: center; margin-top: 4rem; }
 .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; letter-spacing: 0.15em; margin-bottom: 1rem; }
 .footer-logo span { color: var(--rose); }
 .footer-text { font-size: 12px; color: var(--text3); }
-@media(max-width:600px){ .nav-links{display:none;} }
-
-  .article-img { width: 100%; height: 180px; object-fit: cover; border-radius: var(--rad-lg) var(--rad-lg) 0 0; display: block; }
+@media(max-width:760px){
+  .nav-links { display: none; }
+  .nav-right .btn-lang, .nav-right .btn-nav { display: none; }
+  .hamburger { display: flex; }
+  .articles { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 <nav>
   <a href="/" class="nav-logo">Worn<span>Secret</span></a>
   <div class="nav-links">
-    <a href="/">Home</a>
-    <a href="/blog">Blog</a>
+    <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
+    <a href="/annunci" data-i18n="nav_listings">Annunci</a>
+    <a href="/blog" class="active" data-i18n="nav_blog">Blog</a>
+    <a href="/#vendi" data-i18n="nav_sell">Vendi</a>
   </div>
-  <a href="/" class="btn-nav">Accedi</a>
+  <div class="nav-right">
+    <button class="btn-lang" id="langBtn" onclick="toggleLang()">EN</button>
+    <a href="/" class="btn-nav" data-i18n="nav_login">Accedi</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
 </nav>
 
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
+  <a href="/annunci" data-i18n="nav_listings">Annunci</a>
+  <a href="/blog" data-i18n="nav_blog">Blog</a>
+  <a href="/#vendi" data-i18n="nav_sell">Vendi</a>
+  <a href="/" data-i18n="nav_login">Accedi</a>
+  <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
+</div>
+
 <div class="page">
-  <div class="page-tag">Guide & Consigli</div>
-  <h1 class="page-title">Il Blog di WornSecret</h1>
-  <p class="page-sub">Guide pratiche su come vendere indumenti usati online in modo sicuro, anonimo e senza problemi.</p>
+  <div class="page-tag" data-i18n="blog_tag">Guide & Consigli</div>
+  <h1 class="page-title" data-i18n="blog_title">Il Blog di WornSecret</h1>
+  <p class="page-sub" data-i18n="blog_sub">Guide pratiche su come vendere indumenti usati online in modo sicuro, anonimo e senza problemi.</p>
 
   <div class="articles">
     <a href="/blog/vinted-banna-intimo-usato.html" class="article-card">
       <img src="/blog/images/envelope.jpg" alt="Vinted banna intimo usato" class="article-img" />
       <div class="article-card-body">
-      <div class="article-card-body">
-      <div class="article-card-body">
-      <div class="article-card-body">
-      <div class="article-tag">Piattaforme</div>
-      <h2 class="article-title">Vinted banna gli indumenti intimi usati: cosa fare e dove venderli</h2>
-      <p class="article-excerpt">Vinted ha regole precise sugli indumenti intimi usati e banna i profili che le violano. Scopri cosa puoi vendere, cosa è vietato e quali sono le alternative più sicure.</p>
-      <div class="article-meta">
-        <span>📅 Maggio 2026</span>
-        <span>⏱ 4 min di lettura</span>
-      </div>
-      </div>
-      </div>
-      </div>
+        <div class="article-tag">Piattaforme</div>
+        <h2 class="article-title">Vinted banna gli indumenti intimi usati: cosa fare e dove venderli</h2>
+        <p class="article-excerpt">Vinted ha regole precise sugli indumenti intimi usati e banna i profili che le violano. Scopri cosa puoi vendere, cosa e vietato e quali sono le alternative piu sicure.</p>
+        <div class="article-meta"><span>Maggio 2026</span><span>4 min</span></div>
       </div>
     </a>
 
     <a href="/blog/vendere-indumenti-usati-anonimamente.html" class="article-card">
       <img src="/blog/images/fabric.jpg" alt="Vendere in modo anonimo" class="article-img" />
-      <div class="article-tag">Guida</div>
-      <h2 class="article-title">Come vendere indumenti usati in modo anonimo in Italia</h2>
-      <p class="article-excerpt">Guida completa per chi vuole vendere indumenti usati online senza esporre dati personali: username, pagamenti, spedizioni e tutto quello che devi sapere.</p>
-      <div class="article-meta">
-        <span>📅 Maggio 2026</span>
-        <span>⏱ 5 min di lettura</span>
+      <div class="article-card-body">
+        <div class="article-tag">Guida</div>
+        <h2 class="article-title">Come vendere indumenti usati in modo anonimo in Italia</h2>
+        <p class="article-excerpt">Guida completa per chi vuole vendere indumenti usati online senza esporre dati personali: username, pagamenti, spedizioni e tutto quello che devi sapere.</p>
+        <div class="article-meta"><span>Maggio 2026</span><span>5 min</span></div>
       </div>
     </a>
 
     <a href="/blog/alternative-vinted-intimo-usato.html" class="article-card">
       <img src="/blog/images/boxes.jpg" alt="Alternative a Vinted" class="article-img" />
-      <div class="article-tag">Confronto</div>
-      <h2 class="article-title">Alternative a Vinted per vendere intimo usato: guida completa 2026</h2>
-      <p class="article-excerpt">Confronto tra le principali piattaforme disponibili in Italia per vendere indumenti intimi usati: sicurezza, anonimato, commissioni e facilità d'uso.</p>
-      <div class="article-meta">
-        <span>📅 Maggio 2026</span>
-        <span>⏱ 6 min di lettura</span>
+      <div class="article-card-body">
+        <div class="article-tag">Confronto</div>
+        <h2 class="article-title">Alternative a Vinted per vendere intimo usato: guida completa 2026</h2>
+        <p class="article-excerpt">Confronto tra le principali piattaforme disponibili in Italia per vendere indumenti intimi usati: sicurezza, anonimato, commissioni e facilita d'uso.</p>
+        <div class="article-meta"><span>Maggio 2026</span><span>6 min</span></div>
       </div>
     </a>
 
     <a href="/blog/spedire-anonimamente-locker-italia.html" class="article-card">
       <img src="/blog/images/locker.jpg" alt="Spedire con locker" class="article-img" />
-      <div class="article-tag">Spedizioni</div>
-      <h2 class="article-title">Come spedire in modo anonimo con i locker in Italia</h2>
-      <p class="article-excerpt">Guida pratica all'uso dei locker per spedire e ricevere pacchi senza esporre il proprio indirizzo di casa. Tutti i servizi disponibili in Italia e come usarli.</p>
-      <div class="article-meta">
-        <span>📅 Maggio 2026</span>
-        <span>⏱ 4 min di lettura</span>
+      <div class="article-card-body">
+        <div class="article-tag">Spedizioni</div>
+        <h2 class="article-title">Come spedire in modo anonimo con i locker in Italia</h2>
+        <p class="article-excerpt">Guida pratica all'uso dei locker per spedire e ricevere pacchi senza esporre il proprio indirizzo di casa. Tutti i servizi disponibili in Italia e come usarli.</p>
+        <div class="article-meta"><span>Maggio 2026</span><span>4 min</span></div>
       </div>
     </a>
   </div>
@@ -117,7 +140,37 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 
 <footer>
   <div class="footer-logo">Worn<span>Secret</span></div>
-  <p class="footer-text">© 2026 WornSecret — Il marketplace discreto per indumenti usati</p>
+  <p class="footer-text">2026 WornSecret — Il marketplace discreto per indumenti usati</p>
 </footer>
+
+<script>
+var T = {
+  it: { nav_how:'Come funziona', nav_listings:'Annunci', nav_blog:'Blog', nav_sell:'Vendi', nav_login:'Accedi',
+        blog_tag:'Guide & Consigli', blog_title:'Il Blog di WornSecret', blog_sub:'Guide pratiche su come vendere indumenti usati online in modo sicuro, anonimo e senza problemi.' },
+  en: { nav_how:'How it works', nav_listings:'Listings', nav_blog:'Blog', nav_sell:'Sell', nav_login:'Sign in',
+        blog_tag:'Guides & Tips', blog_title:'The WornSecret Blog', blog_sub:'Practical guides on how to sell used clothing online safely, anonymously and hassle-free.' }
+};
+var LANG = localStorage.getItem('ws_lang') || 'it';
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k = el.getAttribute('data-i18n');
+    if(T[LANG][k]) el.textContent = T[LANG][k];
+  });
+  var lbl = LANG==='it' ? 'EN' : 'IT';
+  document.getElementById('langBtn').textContent = lbl;
+  var lm = document.getElementById('langBtnMobile'); if(lm) lm.textContent = lbl;
+  document.documentElement.lang = LANG;
+}
+function toggleLang(){
+  LANG = LANG==='it' ? 'en' : 'it';
+  localStorage.setItem('ws_lang', LANG);
+  applyLang();
+}
+function toggleMenu(){
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+applyLang();
+</script>
 </body>
 </html>
