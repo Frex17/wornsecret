@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Annunci — WornSecret</title>
+<meta name="description" content="Sfoglia gli annunci di indumenti usati su WornSecret. Calze, mutande, collant e altro, in totale anonimato." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --noir: #0d0b0e; --deep: #1a1520; --mid: #2a2430; --surface: #342e3e;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+  --text: #f0ebe8; --text2: #a89fa8; --text3: #6a626a;
+  --rose: #c9768a; --rose2: #e8a0b0; --gold: #c9a96e;
+  --rad: 4px; --rad-lg: 8px;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--noir); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: rgba(13,11,14,0.85); backdrop-filter: blur(12px); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.15em; color: var(--text); text-decoration: none; }
+.nav-logo span { color: var(--rose); }
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--rose); }
+.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; transition: all 0.2s; }
+.btn-nav:hover { background: var(--rose); color: #fff; }
+.btn-lang { padding: 6px 12px; border: 1px solid var(--border2); border-radius: var(--rad); font-size: 12px; color: var(--text2); background: none; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+.btn-lang:hover { border-color: var(--rose); color: var(--rose); }
+
+/* HERO */
+.page-hero { padding: 9rem 2rem 2rem; text-align: center; position: relative; overflow: hidden; }
+.page-hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,118,138,0.08) 0%, transparent 70%); pointer-events: none; }
+.hero-tag { font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rose); margin-bottom: 1.5rem; }
+.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 300; line-height: 1.05; letter-spacing: 0.01em; margin-bottom: 1.25rem; }
+.hero-title em { font-style: italic; color: var(--rose); }
+.hero-sub { font-size: 15px; color: var(--text2); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+/* TABS */
+.tabs-row { display: flex; justify-content: center; gap: 2.5rem; border-bottom: 1px solid var(--border); margin-top: 2.5rem; }
+.tab-item { padding: 1rem 0.25rem; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); cursor: pointer; border-bottom: 1px solid transparent; margin-bottom: -1px; transition: color 0.2s; display: flex; align-items: center; gap: 8px; background: none; border-top: none; border-left: none; border-right: none; font-family: 'DM Sans', sans-serif; }
+.tab-item.active { color: var(--rose); border-bottom-color: var(--rose); }
+.tab-count { font-size: 11px; padding: 1px 7px; background: var(--mid); border-radius: 10px; color: var(--text2); }
+.tab-item.active .tab-count { background: var(--rose); color: #fff; }
+
+/* FILTERS */
+.filters { max-width: 1100px; margin: 2.5rem auto 0; padding: 0 2rem; }
+.filter-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 0.75rem; }
+.pills { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.5rem; }
+.pill { padding: 7px 16px; border: 1px solid var(--border2); border-radius: 30px; font-size: 13px; color: var(--text2); background: none; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; }
+.pill:hover { border-color: var(--rose); color: var(--text); }
+.pill.active { background: var(--rose); border-color: var(--rose); color: #fff; }
+.filter-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 0.5rem; border-top: 1px solid var(--border); margin-top: 0.5rem; }
+.region-select { padding: 9px 14px; background: var(--deep); border: 1px solid var(--border2); border-radius: var(--rad); color: var(--text); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; min-width: 220px; }
+.results-count { font-size: 13px; color: var(--text3); }
+.results-count span { color: var(--rose); }
+
+/* GRID */
+.listings-wrap { max-width: 1100px; margin: 2.5rem auto 6rem; padding: 0 2rem; }
+.listings-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+.listing-card { background: var(--deep); border: 1px solid var(--border); border-radius: var(--rad-lg); overflow: hidden; cursor: pointer; transition: transform 0.25s, border-color 0.25s; display: flex; flex-direction: column; }
+.listing-card:hover { transform: translateY(-4px); border-color: var(--border2); }
+.listing-img { position: relative; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(135deg, var(--mid), var(--deep)); }
+.listing-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.listing-img-emoji { font-size: 3.5rem; opacity: 0.6; }
+.card-badge { position: absolute; top: 10px; left: 10px; background: rgba(13,11,14,0.8); backdrop-filter: blur(4px); border: 1px solid var(--border2); color: var(--rose2); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 9px; border-radius: 3px; z-index: 2; }
+.card-save { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; background: rgba(13,11,14,0.7); backdrop-filter: blur(4px); border: 1px solid var(--border2); color: var(--text2); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; transition: all 0.2s; font-size: 14px; }
+.card-save:hover { color: var(--rose); border-color: var(--rose); }
+.card-save.saved { color: var(--rose); border-color: var(--rose); background: rgba(201,118,138,0.15); }
+.listing-locked .listing-img-emoji { filter: blur(6px); }
+.lock-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(13,11,14,0.55); backdrop-filter: blur(3px); z-index: 1; }
+.lock-overlay .lock-ico { font-size: 1.6rem; }
+.lock-overlay .lock-txt { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text2); }
+.listing-info { padding: 1rem 1.1rem 0; flex: 1; }
+.listing-cat { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.5rem; }
+.listing-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.35rem; line-height: 1.2; }
+.listing-detail { font-size: 12px; color: var(--text2); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.listing-price { font-size: 1.1rem; color: var(--text); font-weight: 500; margin-bottom: 0.85rem; }
+.listing-price .cur { color: var(--rose); }
+.card-footer { display: flex; border-top: 1px solid var(--border); margin-top: auto; }
+.card-action { flex: 1; padding: 0.8rem; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text2); background: none; border: none; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; text-align: center; }
+.card-action:hover { background: var(--mid); color: var(--text); }
+.card-action + .card-action { border-left: 1px solid var(--border); }
+.card-action.primary { color: var(--rose); }
+
+.empty-state { text-align: center; padding: 4rem 2rem; color: var(--text3); grid-column: 1 / -1; }
+.empty-state .empty-ico { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
+
+/* MODAL */
+.overlay { position: fixed; inset: 0; background: rgba(5,4,6,0.8); backdrop-filter: blur(6px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+.overlay.open { display: flex; }
+.modal { background: var(--deep); border: 1px solid var(--border2); border-radius: var(--rad-lg); max-width: 440px; width: 100%; padding: 2.5rem; position: relative; max-height: 90vh; overflow-y: auto; }
+.modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--text3); font-size: 1.5rem; cursor: pointer; line-height: 1; }
+.modal-close:hover { color: var(--text); }
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; margin-bottom: 0.5rem; }
+.modal-sub { font-size: 14px; color: var(--text2); margin-bottom: 1.75rem; }
+.detail-img { width: 100%; aspect-ratio: 16/10; border-radius: var(--rad); overflow: hidden; background: linear-gradient(135deg,var(--mid),var(--deep)); display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 1.25rem; }
+.detail-img img { width: 100%; height: 100%; object-fit: cover; }
+.detail-row { display: flex; justify-content: space-between; padding: 0.7rem 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.detail-row .k { color: var(--text3); }
+.detail-row .v { color: var(--text); }
+.detail-price { font-size: 1.6rem; font-family: 'Cormorant Garamond', serif; color: var(--rose); margin: 1.25rem 0; }
+.tabs-modal { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+.tab-modal { flex: 1; padding: 0.75rem; font-size: 13px; color: var(--text3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+.tab-modal.active { color: var(--rose); border-bottom-color: var(--rose); }
+.field { margin-bottom: 1.1rem; }
+.field label { display: block; font-size: 12px; letter-spacing: 0.05em; color: var(--text2); margin-bottom: 0.5rem; }
+.field input, .field select, .field textarea { width: 100%; padding: 11px 14px; background: var(--noir); border: 1px solid var(--border2); border-radius: var(--rad); color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--rose); }
+.btn-full { width: 100%; padding: 13px; background: var(--rose); color: #fff; border: none; border-radius: var(--rad); font-size: 14px; letter-spacing: 0.03em; cursor: pointer; transition: opacity 0.2s; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; justify-content: center; }
+.btn-full:hover { opacity: 0.9; }
+.spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.success-icon { font-size: 3rem; text-align: center; margin-bottom: 1rem; }
+.success-title { font-family: 'Cormorant Garamond', serif; font-size: 1.75rem; text-align: center; margin-bottom: 0.5rem; }
+.success-text { font-size: 14px; color: var(--text2); text-align: center; line-height: 1.6; }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; letter-spacing: 0.15em; margin-bottom: 1rem; }
+.footer-logo span { color: var(--rose); }
+.footer-text { font-size: 12px; color: var(--text3); max-width: 480px; margin: 0 auto 1rem; line-height: 1.6; }
+.footer-links { display: flex; justify-content: center; gap: 1.5rem; }
+.footer-links a { font-size: 12px; color: var(--text2); text-decoration: none; }
+.footer-links a:hover { color: var(--rose); }
+
+@media(max-width:900px){ .listings-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:700px){
+  .nav-links { display: none; }
+  .tabs-row { gap: 1.5rem; }
+  .filter-bar { flex-direction: column; align-items: flex-start; }
+  .region-select { width: 100%; }
+}
+@media(max-width:460px){ .listings-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Worn<span>Secret</span></a>
+  <div class="nav-links">
+    <a href="/#come-funziona">Come funziona</a>
+    <a href="/annunci" class="active">Annunci</a>
+    <a href="/blog">Blog</a>
+    <a href="#" onclick="openSell();return false;">Vendi</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <button class="btn-lang" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="btn-nav" id="authBtn" onclick="openAuth()">Accedi</button>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="hero-tag" id="heroTag">Marketplace · Beta</div>
+  <h1 class="hero-title" id="heroTitle">Sfoglia gli <em>annunci</em></h1>
+  <p class="hero-sub" id="heroSub">Indumenti usati da venditori anonimi verificati. Solo username, nessun dato personale esposto.</p>
+
+  <div class="tabs-row">
+    <button class="tab-item active" id="tabExplore" onclick="switchTab('explore')">
+      <span id="tabExploreLabel">Esplora</span> <span class="tab-count" id="countExplore">0</span>
+    </button>
+    <button class="tab-item" id="tabSaved" onclick="switchTab('saved')">
+      <span id="tabSavedLabel">Salvati</span> <span class="tab-count" id="countSaved">0</span>
+    </button>
+  </div>
+</section>
+
+<div class="filters">
+  <div class="filter-label" id="catLabel">Categoria</div>
+  <div class="pills" id="catPills"></div>
+  <div class="filter-bar">
+    <select class="region-select" id="regionSelect" onchange="applyFilters()">
+      <option value="all">Tutte le regioni</option>
+      <option value="Lombardia">Lombardia</option>
+      <option value="Lazio">Lazio</option>
+      <option value="Campania">Campania</option>
+      <option value="Veneto">Veneto</option>
+      <option value="Piemonte">Piemonte</option>
+      <option value="Puglia">Puglia</option>
+      <option value="Toscana">Toscana</option>
+      <option value="Sicilia">Sicilia</option>
+    </select>
+    <div class="results-count" id="resultsCount">Risultati: <span>0</span></div>
+  </div>
+</div>
+
+<div class="listings-wrap">
+  <div class="listings-grid" id="listingsGrid"></div>
+</div>
+
+<footer>
+  <div class="footer-logo">Worn<span>Secret</span></div>
+  <p class="footer-text" id="footerText">WornSecret è una piattaforma di compravendita di indumenti usati tra privati. Tutti gli annunci mostrati in questa fase beta sono dimostrativi.</p>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/blog">Blog</a>
+    <a href="/#come-funziona" id="footerHow">Come funziona</a>
+  </div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="overlay" id="authOverlay" onclick="closeOnOverlay(event,'authOverlay')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('authOverlay')">&times;</button>
+    <h2 class="modal-title" id="authTitle">Benvenuto</h2>
+    <p class="modal-sub" id="authSub">Accedi o crea il tuo account anonimo</p>
+    <div class="tabs-modal">
+      <button class="tab-modal active" onclick="switchAuthTab('register')" id="tabRegister">Registrati</button>
+      <button class="tab-modal" onclick="switchAuthTab('login')" id="tabLogin">Accedi</button>
+    </div>
+    <div id="registerForm">
+      <div class="field"><label>Username</label><input type="text" id="regUsername" placeholder="es. anon_92" /></div>
+      <div class="field"><label>Email</label><input type="email" id="regEmail" placeholder="la-tua@email.com" /></div>
+      <button class="btn-full" id="btnRegister" onclick="handleRegister()">Crea account gratuito</button>
+    </div>
+    <div id="loginForm" style="display:none;">
+      <div class="field"><label>Email</label><input type="email" id="logEmail" placeholder="la-tua@email.com" /></div>
+      <div class="field"><label>Password</label><input type="password" id="logPass" placeholder="••••••••" /></div>
+      <button class="btn-full" onclick="handleLogin()">Accedi</button>
+    </div>
+  </div>
+</div>
+
+<!-- SELL MODAL -->
+<div class="overlay" id="sellOverlay" onclick="closeOnOverlay(event,'sellOverlay')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('sellOverlay')">&times;</button>
+    <h2 class="modal-title" id="sellModalTitle">Pubblica un annuncio</h2>
+    <p class="modal-sub" id="sellModalSub">Compila i dettagli del tuo articolo</p>
+    <div class="field"><label>Titolo</label><input type="text" id="sellTitle" placeholder="es. Calze sportive usate" /></div>
+    <div class="field"><label>Categoria</label>
+      <select id="sellCat"><option>Calze</option><option>Mutande</option><option>Collant</option><option>Altro</option></select>
+    </div>
+    <div class="field"><label>Prezzo (€)</label><input type="number" id="sellPrice" placeholder="15" /></div>
+    <div class="field"><label>Descrizione</label><textarea id="sellDesc" rows="3" placeholder="Descrivi il tuo articolo..."></textarea></div>
+    <div class="field"><label>La tua email (privata)</label><input type="email" id="sellEmail" placeholder="la-tua@email.com" /></div>
+    <button class="btn-full" id="btnSell" onclick="handleSell()">Pubblica annuncio</button>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="detailOverlay" onclick="closeOnOverlay(event,'detailOverlay')">
+  <div class="modal" id="detailModal"></div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="overlay" id="successOverlay" onclick="closeOnOverlay(event,'successOverlay')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('successOverlay')">&times;</button>
+    <div id="successContent"></div>
+  </div>
+</div>
+
+<script>
+var FORMSPREE_ID = 'xeedjjbd';
+var LANG = 'it';
+
+// Annunci demo: mix di liberi (free) e bloccati (locked). action = comportamento al click
+var LISTINGS = [
+  { id:1, title:'Calze sportive usate', cat:'Calze', price:12, seller:'shadow_x', gender:'Donna', age:'indossate 3gg', region:'Lombardia', emoji:'🧦', locked:false, action:'detail' },
+  { id:2, title:'Mutandine cotone', cat:'Mutande', price:18, seller:'velvet_k', gender:'Donna', age:'indossate 2gg', region:'Lazio', emoji:'👙', locked:true, action:'auth' },
+  { id:3, title:'Collant 40 denari', cat:'Collant', price:9, seller:'noir_anon', gender:'Donna', age:'indossati 1gg', region:'Campania', emoji:'🩱', locked:true, action:'auth' },
+  { id:4, title:'Calze lunghe lana', cat:'Calze', price:15, seller:'secret_m', gender:'Uomo', age:'indossate 4gg', region:'Veneto', emoji:'🧦', locked:false, action:'detail' },
+  { id:5, title:'Set intimo usato', cat:'Altro', price:25, seller:'rose_w', gender:'Donna', age:'indossato 2gg', region:'Piemonte', emoji:'👗', locked:true, action:'auth' },
+  { id:6, title:'Calzini bianchi', cat:'Calze', price:8, seller:'anon_7734', gender:'Uomo', age:'indossati 5gg', region:'Puglia', emoji:'🧦', locked:false, action:'inline' },
+  { id:7, title:'Collant velati neri', cat:'Collant', price:11, seller:'mystic_v', gender:'Donna', age:'indossati 2gg', region:'Toscana', emoji:'🩱', locked:false, action:'detail' },
+  { id:8, title:'Boxer sportivi', cat:'Mutande', price:14, seller:'kilo_88', gender:'Uomo', age:'indossati 3gg', region:'Sicilia', emoji:'🩲', locked:true, action:'auth' },
+  { id:9, title:'Calze a rete', cat:'Calze', price:13, seller:'lace_d', gender:'Donna', age:'indossate 1gg', region:'Lombardia', emoji:'🧦', locked:false, action:'inline' },
+  { id:10, title:'Slip in pizzo', cat:'Mutande', price:22, seller:'silk_r', gender:'Donna', age:'indossati 2gg', region:'Lazio', emoji:'👙', locked:true, action:'auth' },
+  { id:11, title:'Collant coprenti', cat:'Collant', price:10, seller:'dark_e', gender:'Donna', age:'indossati 3gg', region:'Veneto', emoji:'🩱', locked:false, action:'detail' },
+  { id:12, title:'Calzini fantasia', cat:'Calze', price:9, seller:'wave_o', gender:'Uomo', age:'indossati 4gg', region:'Campania', emoji:'🧦', locked:false, action:'inline' }
+];
+
+var CATS = ['Tutti','Calze','Mutande','Collant','Altro'];
+var activeCat = 'Tutti';
+var activeTab = 'explore';
+var saved = [];
+
+var T = {
+  it: {
+    nav_how:'Come funziona', nav_listings:'Annunci', nav_blog:'Blog', nav_sell:'Vendi', nav_login:'Accedi',
+    hero_tag:'Marketplace · Beta', hero_title:'Sfoglia gli <em>annunci</em>',
+    hero_sub:'Indumenti usati da venditori anonimi verificati. Solo username, nessun dato personale esposto.',
+    tab_explore:'Esplora', tab_saved:'Salvati', cat_label:'Categoria',
+    results:'Risultati', save:'Salva', saved_lbl:'Salvato', profile:'Dettagli', unlock:'Sblocca',
+    locked_txt:'Bloccato', empty:'Nessun annuncio in questa categoria.',
+    auth_title:'Benvenuto', auth_sub:'Accedi o crea il tuo account anonimo',
+    footer_text:'WornSecret è una piattaforma di compravendita di indumenti usati tra privati. Tutti gli annunci mostrati in questa fase beta sono dimostrativi.'
+  },
+  en: {
+    nav_how:'How it works', nav_listings:'Listings', nav_blog:'Blog', nav_sell:'Sell', nav_login:'Sign in',
+    hero_tag:'Marketplace · Beta', hero_title:'Browse the <em>listings</em>',
+    hero_sub:'Used clothing from verified anonymous sellers. Username only, no personal data exposed.',
+    tab_explore:'Explore', tab_saved:'Saved', cat_label:'Category',
+    results:'Results', save:'Save', saved_lbl:'Saved', profile:'Details', unlock:'Unlock',
+    locked_txt:'Locked', empty:'No listings in this category.',
+    auth_title:'Welcome', auth_sub:'Sign in or create your anonymous account',
+    footer_text:'WornSecret is a peer-to-peer marketplace for used clothing. All listings shown during this beta are illustrative.'
+  }
+};
+
+function t(k){ return T[LANG][k] || T.it[k]; }
+
+function openAuth(){ document.getElementById('authOverlay').classList.add('open'); }
+function openSell(){ document.getElementById('sellOverlay').classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function closeOnOverlay(e,id){ if(e.target.id===id) closeModal(id); }
+
+function switchAuthTab(tab){
+  var tabs=document.querySelectorAll('.tab-modal');
+  tabs[0].classList.toggle('active', tab==='register');
+  tabs[1].classList.toggle('active', tab==='login');
+  document.getElementById('registerForm').style.display = tab==='register'?'block':'none';
+  document.getElementById('loginForm').style.display = tab==='login'?'block':'none';
+}
+
+function showSuccess(icon,title,text){
+  document.getElementById('successContent').innerHTML =
+    '<div class="success-icon">'+icon+'</div><div class="success-title">'+title+'</div><p class="success-text">'+text+'</p>';
+  document.getElementById('successOverlay').classList.add('open');
+}
+
+function renderCats(){
+  var html='';
+  for(var i=0;i<CATS.length;i++){
+    var c=CATS[i];
+    html+='<button class="pill'+(c===activeCat?' active':'')+'" onclick="setCat(\''+c+'\')">'+c+'</button>';
+  }
+  document.getElementById('catPills').innerHTML=html;
+}
+
+function setCat(c){ activeCat=c; renderCats(); applyFilters(); }
+
+function switchTab(tab){
+  activeTab=tab;
+  document.getElementById('tabExplore').classList.toggle('active', tab==='explore');
+  document.getElementById('tabSaved').classList.toggle('active', tab==='saved');
+  applyFilters();
+}
+
+function getFiltered(){
+  var region=document.getElementById('regionSelect').value;
+  return LISTINGS.filter(function(l){
+    if(activeTab==='saved' && saved.indexOf(l.id)===-1) return false;
+    if(activeCat!=='Tutti' && l.cat!==activeCat) return false;
+    if(region!=='all' && l.region!==region) return false;
+    return true;
+  });
+}
+
+function applyFilters(){
+  var items=getFiltered();
+  var grid=document.getElementById('listingsGrid');
+  document.getElementById('countExplore').textContent=LISTINGS.length;
+  document.getElementById('countSaved').textContent=saved.length;
+  document.getElementById('resultsCount').innerHTML=t('results')+': <span>'+items.length+'</span>';
+
+  if(items.length===0){
+    grid.innerHTML='<div class="empty-state"><div class="empty-ico">🔍</div>'+t('empty')+'</div>';
+    return;
+  }
+
+  var html='';
+  for(var i=0;i<items.length;i++){
+    var l=items[i];
+    var isSaved=saved.indexOf(l.id)!==-1;
+    html+='<div class="listing-card'+(l.locked?' listing-locked':'')+'">';
+    html+='<div class="listing-img" onclick="cardClick('+l.id+')">';
+    html+='<span class="listing-img-emoji">'+l.emoji+'</span>';
+    html+='<span class="card-badge">'+l.cat+'</span>';
+    html+='<button class="card-save'+(isSaved?' saved':'')+'" onclick="event.stopPropagation();toggleSave('+l.id+')">'+(isSaved?'♥':'♡')+'</button>';
+    if(l.locked) html+='<div class="lock-overlay"><div class="lock-ico">🔒</div><div class="lock-txt">'+t('locked_txt')+'</div></div>';
+    html+='</div>';
+    html+='<div class="listing-info" onclick="cardClick('+l.id+')">';
+    html+='<div class="listing-cat">'+l.cat+'</div>';
+    html+='<div class="listing-title">'+l.title+'</div>';
+    html+='<div class="listing-detail">'+l.gender+' · '+l.age+' · 📍'+l.region+'</div>';
+    html+='<div class="listing-price"><span class="cur">€</span>'+l.price+'</div>';
+    html+='</div>';
+    html+='<div class="card-footer">';
+    html+='<button class="card-action" onclick="event.stopPropagation();toggleSave('+l.id+')">'+(isSaved?'♥ '+t('saved_lbl'):'♡ '+t('save'))+'</button>';
+    html+='<button class="card-action primary" onclick="event.stopPropagation();cardClick('+l.id+')">'+(l.locked?t('unlock')+' →':t('profile')+' →')+'</button>';
+    html+='</div>';
+    html+='</div>';
+  }
+  grid.innerHTML=html;
+}
+
+function toggleSave(id){
+  var idx=saved.indexOf(id);
+  if(idx===-1) saved.push(id); else saved.splice(idx,1);
+  applyFilters();
+}
+
+// Click misto: locked -> auth; action 'detail' -> modal dettaglio; action 'inline' -> info base; action 'auth' -> registrazione
+function cardClick(id){
+  var l=null;
+  for(var i=0;i<LISTINGS.length;i++){ if(LISTINGS[i].id===id){ l=LISTINGS[i]; break; } }
+  if(!l) return;
+  if(l.locked || l.action==='auth'){ openAuth(); return; }
+  if(l.action==='detail'){ openDetail(l); return; }
+  if(l.action==='inline'){ openInline(l); return; }
+  openDetail(l);
+}
+
+function openDetail(l){
+  var html='<button class="modal-close" onclick="closeModal(\'detailOverlay\')">&times;</button>';
+  html+='<div class="detail-img">'+l.emoji+'</div>';
+  html+='<div class="listing-cat">'+l.cat+'</div>';
+  html+='<h2 class="modal-title">'+l.title+'</h2>';
+  html+='<div class="detail-price"><span style="color:var(--rose)">€</span>'+l.price+'</div>';
+  html+='<div class="detail-row"><span class="k">Venditore</span><span class="v">@'+l.seller+'</span></div>';
+  html+='<div class="detail-row"><span class="k">Genere</span><span class="v">'+l.gender+'</span></div>';
+  html+='<div class="detail-row"><span class="k">Condizione</span><span class="v">'+l.age+'</span></div>';
+  html+='<div class="detail-row"><span class="k">Regione</span><span class="v">'+l.region+'</span></div>';
+  html+='<button class="btn-full" style="margin-top:1.5rem;" onclick="closeModal(\'detailOverlay\');openAuth();">'+(LANG==='it'?'Registrati per contattare':'Sign up to contact')+'</button>';
+  document.getElementById('detailModal').innerHTML=html;
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function openInline(l){
+  var txt=(LANG==='it'
+    ? 'Venditore @'+l.seller+' · '+l.gender+' · '+l.age+' · '+l.region+'. Registrati per vedere le foto reali e contattare il venditore.'
+    : 'Seller @'+l.seller+' · '+l.gender+' · '+l.age+' · '+l.region+'. Sign up to see real photos and contact the seller.');
+  showSuccess(l.emoji, l.title+' — €'+l.price, txt);
+}
+
+function submitToFormspree(data){
+  return fetch('https://formspree.io/f/'+FORMSPREE_ID,{
+    method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(data)
+  }).catch(function(){});
+}
+
+function incrementCount(){
+  return fetch('/api/counter',{method:'POST'}).then(function(r){return r.json();}).then(function(d){return d.value;}).catch(function(){return null;});
+}
+
+function handleRegister(){
+  var u=document.getElementById('regUsername').value.trim();
+  var e=document.getElementById('regEmail').value.trim();
+  if(!u||!e){ alert(LANG==='it'?'Inserisci username e email.':'Enter username and email.'); return; }
+  var btn=document.getElementById('btnRegister');
+  btn.innerHTML='<div class="spinner"></div>'; btn.disabled=true;
+  submitToFormspree({tipo:'registrazione',username:u,email:e}).then(function(){ return incrementCount(); }).then(function(){
+    btn.innerHTML=t('auth_title')==='Welcome'?'Create free account':'Crea account gratuito'; btn.disabled=false;
+    closeModal('authOverlay');
+    showSuccess('🎉', (LANG==='it'?'Benvenuto, @':'Welcome, @')+u+'!', LANG==='it'?'Il tuo account è stato creato. Ti avviseremo quando i pagamenti saranno attivi.':'Your account has been created. We will notify you when payments go live.');
+  });
+}
+
+function handleLogin(){
+  closeModal('authOverlay');
+  showSuccess('👋', LANG==='it'?'Bentornato!':'Welcome back!', LANG==='it'?'Sei entrato nel tuo account WornSecret.':'You are signed in to your WornSecret account.');
+}
+
+function handleSell(){
+  var title=document.getElementById('sellTitle').value.trim();
+  var email=document.getElementById('sellEmail').value.trim();
+  var price=document.getElementById('sellPrice').value;
+  var cat=document.getElementById('sellCat').value;
+  var desc=document.getElementById('sellDesc').value.trim();
+  if(!title||!email){ alert(LANG==='it'?'Inserisci titolo ed email.':'Enter title and email.'); return; }
+  var btn=document.getElementById('btnSell');
+  btn.innerHTML='<div class="spinner"></div>'; btn.disabled=true;
+  submitToFormspree({tipo:'annuncio',titolo:title,prezzo:price+'euro',categoria:cat,descrizione:desc,email:email}).then(function(){
+    btn.innerHTML=LANG==='it'?'Pubblica annuncio':'Post listing'; btn.disabled=false;
+    closeModal('sellOverlay');
+    showSuccess('✅', LANG==='it'?'Annuncio pubblicato!':'Listing posted!', (LANG==='it'?'Il tuo annuncio è stato ricevuto. Ti contatteremo a ':'Your listing was received. We will contact you at ')+email+'.');
+  });
+}
+
+function toggleLang(){
+  LANG = LANG==='it' ? 'en' : 'it';
+  document.getElementById('langBtn').textContent = LANG==='it' ? 'EN' : 'IT';
+  applyLang();
+}
+
+function applyLang(){
+  var l=T[LANG];
+  var nav=document.querySelectorAll('.nav-links a');
+  if(nav[0]) nav[0].textContent=l.nav_how;
+  if(nav[1]) nav[1].textContent=l.nav_listings;
+  if(nav[2]) nav[2].textContent=l.nav_blog;
+  if(nav[3]) nav[3].textContent=l.nav_sell;
+  document.getElementById('authBtn').textContent=l.nav_login;
+  document.getElementById('heroTag').textContent=l.hero_tag;
+  document.getElementById('heroTitle').innerHTML=l.hero_title;
+  document.getElementById('heroSub').textContent=l.hero_sub;
+  document.getElementById('tabExploreLabel').textContent=l.tab_explore;
+  document.getElementById('tabSavedLabel').textContent=l.tab_saved;
+  document.getElementById('catLabel').textContent=l.cat_label;
+  document.getElementById('authTitle').textContent=l.auth_title;
+  document.getElementById('authSub').textContent=l.auth_sub;
+  document.getElementById('footerText').textContent=l.footer_text;
+  document.getElementById('footerHow').textContent=l.nav_how;
+  applyFilters();
+}
+
+renderCats();
+applyFilters();
+</script>
+</body>
+</html>
