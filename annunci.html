@@ -128,9 +128,21 @@ footer { border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: ce
 .footer-links a { font-size: 12px; color: var(--text2); text-decoration: none; }
 .footer-links a:hover { color: var(--rose); }
 
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 110; }
+.hamburger span { width: 24px; height: 2px; background: var(--text); transition: all 0.3s; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu { position: fixed; inset: 0; background: var(--noir); z-index: 105; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.mobile-menu.open { opacity: 1; pointer-events: auto; }
+.mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
+.mobile-menu a:hover { color: var(--rose); }
+.mobile-menu .btn-lang { font-size: 1rem; padding: 10px 24px; }
 @media(max-width:900px){ .listings-grid { grid-template-columns: repeat(2, 1fr); } }
-@media(max-width:700px){
+@media(max-width:760px){
   .nav-links { display: none; }
+  .nav-right .btn-lang, .nav-right .btn-nav { display: none; }
+  .hamburger { display: flex; }
   .tabs-row { gap: 1.5rem; }
   .filter-bar { flex-direction: column; align-items: flex-start; }
   .region-select { width: 100%; }
@@ -148,11 +160,21 @@ footer { border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: ce
     <a href="/blog">Blog</a>
     <a href="#" onclick="openSell();return false;">Vendi</a>
   </div>
-  <div style="display:flex;align-items:center;gap:10px;">
+  <div class="nav-right" style="display:flex;align-items:center;gap:10px;">
     <button class="btn-lang" id="langBtn" onclick="toggleLang()">EN</button>
     <button class="btn-nav" id="authBtn" onclick="openAuth()">Accedi</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/#come-funziona">Come funziona</a>
+  <a href="/annunci">Annunci</a>
+  <a href="/blog">Blog</a>
+  <a href="#" onclick="toggleMenu();openSell();return false;">Vendi</a>
+  <a href="#" onclick="toggleMenu();openAuth();return false;">Accedi</a>
+  <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
+</div>
 
 <section class="page-hero">
   <div class="page-hero-bg"></div>
@@ -258,7 +280,7 @@ footer { border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: ce
 
 <script>
 var FORMSPREE_ID = 'xeedjjbd';
-var LANG = 'it';
+var LANG = localStorage.getItem('ws_lang') || 'it';
 
 // Annunci demo: mix di liberi (free) e bloccati (locked). action = comportamento al click
 var LISTINGS = [
@@ -476,8 +498,15 @@ function handleSell(){
 
 function toggleLang(){
   LANG = LANG==='it' ? 'en' : 'it';
-  document.getElementById('langBtn').textContent = LANG==='it' ? 'EN' : 'IT';
+  localStorage.setItem('ws_lang', LANG);
+  var lbl = LANG==='it' ? 'EN' : 'IT';
+  document.getElementById('langBtn').textContent = lbl;
+  var lm = document.getElementById('langBtnMobile'); if(lm) lm.textContent = lbl;
   applyLang();
+}
+function toggleMenu(){
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
 }
 
 function applyLang(){
@@ -502,7 +531,7 @@ function applyLang(){
 }
 
 renderCats();
-applyFilters();
+if (LANG !== 'it') applyLang(); else applyFilters();
 </script>
 </body>
 </html>
