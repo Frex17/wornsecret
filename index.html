@@ -62,8 +62,13 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .step-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
 .listings-section { padding: 6rem 2rem; background: var(--deep); }
 .listings-inner { max-width: 1000px; margin: 0 auto; }
-.listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--rad-lg); overflow: hidden; margin-top: 3rem; }
-.listing-card { background: var(--noir); cursor: pointer; transition: background 0.2s; }
+.listings-grid { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-top: 3rem; padding-bottom: 1rem; scrollbar-width: thin; }
+.listings-grid::-webkit-scrollbar { height: 6px; }
+.listings-grid::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+.listing-card { flex: 0 0 calc(25% - 0.75rem); scroll-snap-align: start; border: 1px solid var(--border); border-radius: var(--rad-lg); overflow: hidden; }
+@media(max-width:900px){ .listing-card { flex: 0 0 calc(50% - 0.5rem); } }
+@media(max-width:560px){ .listing-card { flex: 0 0 calc(80% - 0.5rem); } }
+.listing-card { background: var(--noir); cursor: pointer; transition: background 0.2s, transform 0.2s; }
 .listing-card:hover { background: var(--mid); }
 .listing-img { width: 100%; aspect-ratio: 1; background: var(--surface); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
 .listing-img-placeholder { font-size: 40px; opacity: 0.3; }
@@ -161,6 +166,19 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 
 
   .btn-lang { padding: 6px 12px; border: 1px solid var(--border2); border-radius: var(--rad); font-size: 12px; color: var(--text2); background: none; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 110; }
+  .hamburger span { width: 24px; height: 2px; background: var(--text); transition: all 0.3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { position: fixed; inset: 0; background: var(--noir); z-index: 105; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .mobile-menu.open { opacity: 1; pointer-events: auto; }
+  .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
+  .mobile-menu a:hover { color: var(--rose); }
+  .mobile-menu .btn-lang { font-size: 1rem; padding: 10px 24px; }
+  @media(max-width:760px){ .hamburger { display: flex; } nav .nav-right .btn-lang, nav .nav-right .btn-nav { display: none; } }
+
   .btn-lang:hover { border-color: var(--rose); color: var(--rose); }
 </style>
 </head>
@@ -174,11 +192,21 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <a href="/blog">Blog</a>
     <a href="#" onclick="openSell();return false;">Vendi</a>
   </div>
-  <div style="display:flex;align-items:center;gap:10px;">
+  <div class="nav-right" style="display:flex;align-items:center;gap:10px;">
     <button class="btn-lang" id="langBtn" onclick="toggleLang()">EN</button>
     <button class="btn-nav" id="authBtn" onclick="openAuth()">Accedi</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#come-funziona" onclick="toggleMenu()">Come funziona</a>
+  <a href="/annunci">Annunci</a>
+  <a href="/blog">Blog</a>
+  <a href="#" onclick="toggleMenu();openSell();return false;">Vendi</a>
+  <a href="#" onclick="toggleMenu();openAuth();return false;">Accedi</a>
+  <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
+</div>
 
 <section class="hero">
   <div class="hero-bg"></div>
@@ -188,7 +216,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <p class="hero-sub">Compra e vendi in totale anonimato. Solo username, nessun dato personale esposto. La privacy che meriti.</p>
     <div class="hero-ctas">
       <button class="btn-primary" onclick="openSell()">Inizia a vendere</button>
-      <button class="btn-secondary" onclick="document.getElementById('annunci').scrollIntoView({behavior:'smooth'})">Sfoglia annunci</button>
+      <button class="btn-secondary" onclick="window.location.href='/annunci'">Sfoglia annunci</button>
     </div>
     <div class="hero-stats">
       <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Anonimo</div></div>
@@ -301,7 +329,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <p class="section-sub">Il marketplace è in fase beta. Registrati per vedere tutti i contenuti.</p>
     <div class="listings-grid" id="listingsGrid"></div>
     <div style="text-align:center;margin-top:2rem;">
-      <button class="btn-primary" onclick="openAuth()">Registrati per vedere tutti gli annunci</button>
+      <button class="btn-primary" onclick="window.location.href='/annunci'">Vedi tutti gli annunci</button>
     </div>
   </div>
 </section>
@@ -397,14 +425,15 @@ var FORMSPREE_ID = 'xeedjjbd';
 var GOAL1 = 20, GOAL2 = 50;
 
 var LISTINGS = [
-  { title: 'Calze sportive usate', price: 12, seller: 'shadow_x', cat: 'Calze', blur: false },
-  { title: 'Mutandine cotone', price: 18, seller: 'velvet_k', cat: 'Mutande', blur: true },
-  { title: 'Collant 40 denari', price: 9, seller: 'noir_anon', cat: 'Collant', blur: true },
-  { title: 'Calze lunghe lana', price: 15, seller: 'secret_m', cat: 'Calze', blur: false },
-  { title: 'Set intimo usato', price: 25, seller: 'rose_w', cat: 'Altro', blur: true },
-  { title: 'Calzini bianchi', price: 8, seller: 'anon_7734', cat: 'Calze', blur: false }
+  { title: 'Calze sportive usate', price: 12, seller: 'shadow_x', cat: 'Calze', blur: false, emoji: '🧦' },
+  { title: 'Mutandine cotone', price: 18, seller: 'velvet_k', cat: 'Mutande', blur: true, emoji: '👙' },
+  { title: 'Collant 40 denari', price: 9, seller: 'noir_anon', cat: 'Collant', blur: true, emoji: '🩱' },
+  { title: 'Calze lunghe lana', price: 15, seller: 'secret_m', cat: 'Calze', blur: false, emoji: '🧦' },
+  { title: 'Set intimo usato', price: 25, seller: 'rose_w', cat: 'Altro', blur: true, emoji: '👗' },
+  { title: 'Calzini bianchi', price: 8, seller: 'anon_7734', cat: 'Calze', blur: false, emoji: '🧦' },
+  { title: 'Collant velati neri', price: 11, seller: 'mystic_v', cat: 'Collant', blur: false, emoji: '🩱' },
+  { title: 'Boxer sportivi', price: 14, seller: 'kilo_88', cat: 'Mutande', blur: true, emoji: '🩲' }
 ];
-var EMOJIS = ['🧦','👙','🩱','👗','🩲','🧣'];
 
 function openAuth() { document.getElementById('authOverlay').classList.add('open'); }
 function openSell() { document.getElementById('sellOverlay').classList.add('open'); }
@@ -521,7 +550,7 @@ function renderListings() {
   for (var i = 0; i < LISTINGS.length; i++) {
     var l = LISTINGS[i];
     html += '<div class="listing-card" onclick="openAuth()">';
-    html += '<div class="listing-img"><span class="listing-img-placeholder">' + EMOJIS[i % EMOJIS.length] + '</span>';
+    html += '<div class="listing-img"><span class="listing-img-placeholder">' + l.emoji + '</span>';
     if (l.blur) html += '<div class="listing-blur">🔒</div>';
     html += '</div><div class="listing-info">';
     html += '<div class="listing-tag">' + l.cat + '</div>';
@@ -532,12 +561,7 @@ function renderListings() {
   document.getElementById('listingsGrid').innerHTML = html;
 }
 
-renderListings();
-updateCounter();
-
-renderListings();
-updateCounter();
-var LANG = 'it';
+var LANG = localStorage.getItem('ws_lang') || 'it';
 var T = {
   it: {
     nav_how: 'Come funziona', nav_listings: 'Annunci', nav_blog: 'Blog', nav_sell: 'Vendi', nav_login: 'Accedi',
@@ -595,12 +619,19 @@ var T = {
 
 function toggleLang() {
   LANG = LANG === 'it' ? 'en' : 'it';
-  document.getElementById('langBtn').textContent = LANG === 'it' ? 'EN' : 'IT';
+  localStorage.setItem('ws_lang', LANG);
+  var lbl = LANG === 'it' ? 'EN' : 'IT';
+  document.getElementById('langBtn').textContent = lbl;
+  var lm = document.getElementById('langBtnMobile'); if (lm) lm.textContent = lbl;
   applyLang();
 }
 
 function t(key) { return T[LANG][key] || T['it'][key]; }
 
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
 function applyLang() {
   var l = T[LANG];
   // Navbar
@@ -672,6 +703,10 @@ function applyLang() {
   document.querySelector('.modal-sub').textContent = l.modal_sub;
 }
 
+
+renderListings();
+updateCounter();
+if (LANG !== 'it') { document.getElementById('langBtn').textContent = 'IT'; var _lm=document.getElementById('langBtnMobile'); if(_lm)_lm.textContent='IT'; applyLang(); }
 </script>
 </body>
 </html>
