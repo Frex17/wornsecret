@@ -56,9 +56,27 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 <body>
 <nav>
   <a href="/" class="nav-logo">Worn<span>Secret</span></a>
-  <div class="nav-links"><a href="/">Home</a><a href="/blog">Blog</a></div>
-  <a href="/" class="btn-nav">Accedi</a>
+  <div class="nav-links">
+    <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
+    <a href="/annunci" data-i18n="nav_listings">Annunci</a>
+    <a href="/blog" class="active" data-i18n="nav_blog">Blog</a>
+    <a href="/#vendi" data-i18n="nav_sell">Vendi</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-lang" id="langBtn" onclick="toggleLang()">EN</button>
+    <a href="/" class="btn-nav" data-i18n="nav_login">Accedi</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
+  <a href="/annunci" data-i18n="nav_listings">Annunci</a>
+  <a href="/blog" data-i18n="nav_blog">Blog</a>
+  <a href="/#vendi" data-i18n="nav_sell">Vendi</a>
+  <a href="/" data-i18n="nav_login">Accedi</a>
+  <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
+</div>
 
 <article class="article">
   <a href="/blog" class="back">← Torna al blog</a>
@@ -135,5 +153,25 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   <div class="footer-logo">Worn<span>Secret</span></div>
   <p class="footer-text">© 2026 WornSecret — Il marketplace discreto per indumenti usati</p>
 </footer>
+
+<script>
+var T = {
+  it: { nav_how:'Come funziona', nav_listings:'Annunci', nav_blog:'Blog', nav_sell:'Vendi', nav_login:'Accedi' },
+  en: { nav_how:'How it works', nav_listings:'Listings', nav_blog:'Blog', nav_sell:'Sell', nav_login:'Sign in' }
+};
+var LANG = localStorage.getItem('ws_lang') || 'it';
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k = el.getAttribute('data-i18n');
+    if(T[LANG][k]) el.textContent = T[LANG][k];
+  });
+  var lbl = LANG==='it' ? 'EN' : 'IT';
+  var lb=document.getElementById('langBtn'); if(lb) lb.textContent=lbl;
+  var lm=document.getElementById('langBtnMobile'); if(lm) lm.textContent=lbl;
+}
+function toggleLang(){ LANG = LANG==='it'?'en':'it'; localStorage.setItem('ws_lang', LANG); applyLang(); }
+function toggleMenu(){ document.getElementById('hamburger').classList.toggle('open'); document.getElementById('mobileMenu').classList.toggle('open'); }
+applyLang();
+</script>
 </body>
 </html>
