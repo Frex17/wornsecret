@@ -137,7 +137,10 @@ footer { border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: ce
 .mobile-menu.open { opacity: 1; pointer-events: auto; }
 .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
 .mobile-menu a:hover { color: var(--rose); }
-.mobile-menu .btn-lang { font-size: 1rem; padding: 10px 24px; }
+.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); border-radius: 30px; letter-spacing: 0.15em; background: rgba(201,169,110,0.08); margin-top: 0.5rem; }
+.mobile-menu .btn-lang:hover { background: var(--gold); color: var(--noir); }
+.mobile-menu a.mm-register { background: var(--rose); color: #fff; padding: 12px 40px; border-radius: 30px; font-family: 'DM Sans', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; }
+.mobile-menu a.mm-register:hover { background: var(--rose2); color: #fff; }
 @media(max-width:900px){ .listings-grid { grid-template-columns: repeat(2, 1fr); } }
 @media(max-width:760px){
   .nav-links { display: none; }
@@ -162,7 +165,7 @@ footer { border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: ce
   </div>
   <div class="nav-right" style="display:flex;align-items:center;gap:10px;">
     <button class="btn-lang" id="langBtn" onclick="toggleLang()">EN</button>
-    <button class="btn-nav" id="authBtn" onclick="openAuth()">Accedi</button>
+    <button class="btn-nav" id="authBtn" onclick="openAuth()">Registrati</button>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -172,7 +175,7 @@ footer { border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: ce
   <a href="/annunci">Annunci</a>
   <a href="/blog">Blog</a>
   <a href="#" onclick="toggleMenu();openSell();return false;">Vendi</a>
-  <a href="#" onclick="toggleMenu();openAuth();return false;">Accedi</a>
+  <a href="#" class="mm-register" onclick="toggleMenu();openAuth();return false;">Registrati</a>
   <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
 </div>
 
@@ -305,7 +308,7 @@ var saved = [];
 
 var T = {
   it: {
-    nav_how:'Come funziona', nav_listings:'Annunci', nav_blog:'Blog', nav_sell:'Vendi', nav_login:'Accedi',
+    nav_how:'Come funziona', nav_listings:'Annunci', nav_blog:'Blog', nav_sell:'Vendi', nav_login:'Registrati',
     hero_tag:'Marketplace · Beta', hero_title:'Sfoglia gli <em>annunci</em>',
     hero_sub:'Indumenti usati da venditori anonimi verificati. Solo username, nessun dato personale esposto.',
     tab_explore:'Esplora', tab_saved:'Salvati', cat_label:'Categoria',
@@ -315,7 +318,7 @@ var T = {
     footer_text:'WornSecret è una piattaforma di compravendita di indumenti usati tra privati. Tutti gli annunci mostrati in questa fase beta sono dimostrativi.'
   },
   en: {
-    nav_how:'How it works', nav_listings:'Listings', nav_blog:'Blog', nav_sell:'Sell', nav_login:'Sign in',
+    nav_how:'How it works', nav_listings:'Listings', nav_blog:'Blog', nav_sell:'Sell', nav_login:'Sign up',
     hero_tag:'Marketplace · Beta', hero_title:'Browse the <em>listings</em>',
     hero_sub:'Used clothing from verified anonymous sellers. Username only, no personal data exposed.',
     tab_explore:'Explore', tab_saved:'Saved', cat_label:'Category',
