@@ -13,7 +13,7 @@
   --noir: #0d0b0e; --deep: #1a1520; --mid: #2a2430;
   --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
   --text: #f0ebe8; --text2: #a89fa8; --text3: #6a626a;
-  --rose: #c9768a; --rose2: #e8a0b0;
+  --rose: #c9768a; --rose2: #e8a0b0; --gold: #c9a96e;
   --rad: 4px; --rad-lg: 8px;
 }
 body { font-family: 'DM Sans', sans-serif; background: var(--noir); color: var(--text); min-height: 100vh; }
@@ -27,7 +27,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .nav-right { display: flex; align-items: center; gap: 10px; }
 .btn-lang { padding: 6px 12px; border: 1px solid var(--border2); border-radius: var(--rad); font-size: 12px; color: var(--text2); background: none; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
 .btn-lang:hover { border-color: var(--rose); color: var(--rose); }
-.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; }
+.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.btn-nav:hover { background: var(--rose); color: #fff; }
 .btn-nav:hover { background: var(--rose); color: #fff; }
 .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 110; }
 .hamburger span { width: 24px; height: 2px; background: var(--text); transition: all 0.3s; }
@@ -38,7 +39,10 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .mobile-menu.open { opacity: 1; pointer-events: auto; }
 .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
 .mobile-menu a:hover { color: var(--rose); }
-.mobile-menu .btn-lang { font-size: 1rem; padding: 10px 24px; }
+.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); border-radius: 30px; letter-spacing: 0.15em; background: rgba(201,169,110,0.08); margin-top: 0.5rem; }
+.mobile-menu .btn-lang:hover { background: var(--gold); color: var(--noir); }
+.mobile-menu a.mm-register { background: var(--rose); color: #fff; padding: 12px 40px; border-radius: 30px; font-family: 'DM Sans', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; }
+.mobile-menu a.mm-register:hover { background: var(--rose2); color: #fff; }
 .page { max-width: 1000px; margin: 0 auto; padding: 8rem 2rem 4rem; }
 .page-tag { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rose); margin-bottom: 1rem; }
 .page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px,6vw,56px); font-weight: 300; line-height: 1.1; margin-bottom: 1rem; }
@@ -72,11 +76,11 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
     <a href="/annunci" data-i18n="nav_listings">Annunci</a>
     <a href="/blog" class="active" data-i18n="nav_blog">Blog</a>
-    <a href="/#vendi" data-i18n="nav_sell">Vendi</a>
+    <a href="/?open=sell" data-i18n="nav_sell">Vendi</a>
   </div>
   <div class="nav-right">
     <button class="btn-lang" id="langBtn" onclick="toggleLang()">EN</button>
-    <a href="/" class="btn-nav" data-i18n="nav_login">Accedi</a>
+    <a href="/?open=auth" class="btn-nav" data-i18n="nav_login">Registrati</a>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -85,8 +89,8 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
   <a href="/annunci" data-i18n="nav_listings">Annunci</a>
   <a href="/blog" data-i18n="nav_blog">Blog</a>
-  <a href="/#vendi" data-i18n="nav_sell">Vendi</a>
-  <a href="/" data-i18n="nav_login">Accedi</a>
+  <a href="/?open=sell" data-i18n="nav_sell">Vendi</a>
+  <a href="/?open=auth" class="mm-register" data-i18n="nav_login">Registrati</a>
   <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
 </div>
 
@@ -145,9 +149,9 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 
 <script>
 var T = {
-  it: { nav_how:'Come funziona', nav_listings:'Annunci', nav_blog:'Blog', nav_sell:'Vendi', nav_login:'Accedi',
+  it: { nav_how:'Come funziona', nav_listings:'Annunci', nav_blog:'Blog', nav_sell:'Vendi', nav_login:'Registrati',
         blog_tag:'Guide & Consigli', blog_title:'Il Blog di WornSecret', blog_sub:'Guide pratiche su come vendere indumenti usati online in modo sicuro, anonimo e senza problemi.' },
-  en: { nav_how:'How it works', nav_listings:'Listings', nav_blog:'Blog', nav_sell:'Sell', nav_login:'Sign in',
+  en: { nav_how:'How it works', nav_listings:'Listings', nav_blog:'Blog', nav_sell:'Sell', nav_login:'Sign up',
         blog_tag:'Guides & Tips', blog_title:'The WornSecret Blog', blog_sub:'Practical guides on how to sell used clothing online safely, anonymously and hassle-free.' }
 };
 var LANG = localStorage.getItem('ws_lang') || 'it';
