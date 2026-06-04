@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --noir: #0d0b0e; --deep: #1a1520; --mid: #2a2430; --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13); --text: #f0ebe8; --text2: #a89fa8; --text3: #6a626a; --rose: #c9768a; --rose2: #e8a0b0; --rad: 4px; --rad-lg: 8px; }
+:root { --noir: #0d0b0e; --deep: #1a1520; --mid: #2a2430; --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13); --text: #f0ebe8; --text2: #a89fa8; --text3: #6a626a; --rose: #c9768a; --rose2: #e8a0b0; --gold: #c9a96e; --rad: 4px; --rad-lg: 8px; }
 body { font-family: 'DM Sans', sans-serif; background: var(--noir); color: var(--text); min-height: 100vh; }
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: rgba(13,11,14,0.85); backdrop-filter: blur(12px); }
 .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; letter-spacing: 0.15em; color: var(--text); text-decoration: none; }
@@ -17,7 +17,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .nav-links { display: flex; align-items: center; gap: 2rem; }
 .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
 .nav-links a:hover { color: var(--text); }
-.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; }
+.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.btn-nav:hover { background: var(--rose); color: #fff; }
 .article { max-width: 680px; margin: 0 auto; padding: 8rem 2rem 4rem; }
 .back { font-size: 13px; color: var(--text2); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 2rem; transition: color 0.2s; }
 .back:hover { color: var(--text); }
@@ -53,7 +54,10 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 .mobile-menu.open { opacity: 1; pointer-events: auto; }
 .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
 .mobile-menu a:hover { color: var(--rose); }
-.mobile-menu .btn-lang { font-size: 1rem; padding: 10px 24px; }
+.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); border-radius: 30px; letter-spacing: 0.15em; background: rgba(201,169,110,0.08); margin-top: 0.5rem; }
+.mobile-menu .btn-lang:hover { background: var(--gold); color: var(--noir); }
+.mobile-menu a.mm-register { background: var(--rose); color: #fff; padding: 12px 40px; border-radius: 30px; font-family: 'DM Sans', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; }
+.mobile-menu a.mm-register:hover { background: var(--rose2); color: #fff; }
 @media(max-width:760px){ .nav-links{display:none;} .nav-right .btn-lang, .nav-right .btn-nav{display:none;} .hamburger{display:flex;} }
 
   .article-hero-img { width: 100%; height: 280px; object-fit: cover; border-radius: var(--rad-lg); margin-bottom: 2.5rem; display: block; }
@@ -66,11 +70,11 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
     <a href="/annunci" data-i18n="nav_listings">Annunci</a>
     <a href="/blog" class="active" data-i18n="nav_blog">Blog</a>
-    <a href="/#vendi" data-i18n="nav_sell">Vendi</a>
+    <a href="/?open=sell" data-i18n="nav_sell">Vendi</a>
   </div>
   <div class="nav-right">
     <button class="btn-lang" id="langBtn" onclick="toggleLang()">EN</button>
-    <a href="/" class="btn-nav" data-i18n="nav_login">Accedi</a>
+    <a href="/?open=auth" class="btn-nav" data-i18n="nav_login">Registrati</a>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -79,8 +83,8 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
   <a href="/annunci" data-i18n="nav_listings">Annunci</a>
   <a href="/blog" data-i18n="nav_blog">Blog</a>
-  <a href="/#vendi" data-i18n="nav_sell">Vendi</a>
-  <a href="/" data-i18n="nav_login">Accedi</a>
+  <a href="/?open=sell" data-i18n="nav_sell">Vendi</a>
+  <a href="/?open=auth" class="mm-register" data-i18n="nav_login">Registrati</a>
   <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
 </div>
 
@@ -135,8 +139,8 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 
 <script>
 var T = {
-  it: { nav_how:'Come funziona', nav_listings:'Annunci', nav_blog:'Blog', nav_sell:'Vendi', nav_login:'Accedi' },
-  en: { nav_how:'How it works', nav_listings:'Listings', nav_blog:'Blog', nav_sell:'Sell', nav_login:'Sign in' }
+  it: { nav_how:'Come funziona', nav_listings:'Annunci', nav_blog:'Blog', nav_sell:'Vendi', nav_login:'Registrati' },
+  en: { nav_how:'How it works', nav_listings:'Listings', nav_blog:'Blog', nav_sell:'Sell', nav_login:'Sign up' }
 };
 var LANG = localStorage.getItem('ws_lang') || 'it';
 function applyLang(){
