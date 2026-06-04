@@ -176,7 +176,10 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   .mobile-menu.open { opacity: 1; pointer-events: auto; }
   .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
   .mobile-menu a:hover { color: var(--rose); }
-  .mobile-menu .btn-lang { font-size: 1rem; padding: 10px 24px; }
+  .mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); border-radius: 30px; letter-spacing: 0.15em; background: rgba(201,169,110,0.08); margin-top: 0.5rem; }
+  .mobile-menu .btn-lang:hover { background: var(--gold); color: var(--noir); }
+  .mobile-menu a.mm-register { background: var(--rose); color: #fff; padding: 12px 40px; border-radius: 30px; font-family: 'DM Sans', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; }
+  .mobile-menu a.mm-register:hover { background: var(--rose2); color: #fff; }
   @media(max-width:760px){ .hamburger { display: flex; } nav .nav-right .btn-lang, nav .nav-right .btn-nav { display: none; } }
 
   .btn-lang:hover { border-color: var(--rose); color: var(--rose); }
@@ -194,7 +197,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   </div>
   <div class="nav-right" style="display:flex;align-items:center;gap:10px;">
     <button class="btn-lang" id="langBtn" onclick="toggleLang()">EN</button>
-    <button class="btn-nav" id="authBtn" onclick="openAuth()">Accedi</button>
+    <button class="btn-nav" id="authBtn" onclick="openAuth()">Registrati</button>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -204,7 +207,7 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   <a href="/annunci">Annunci</a>
   <a href="/blog">Blog</a>
   <a href="#" onclick="toggleMenu();openSell();return false;">Vendi</a>
-  <a href="#" onclick="toggleMenu();openAuth();return false;">Accedi</a>
+  <a href="#" class="mm-register" onclick="toggleMenu();openAuth();return false;">Registrati</a>
   <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
 </div>
 
@@ -564,7 +567,7 @@ function renderListings() {
 var LANG = localStorage.getItem('ws_lang') || 'it';
 var T = {
   it: {
-    nav_how: 'Come funziona', nav_listings: 'Annunci', nav_blog: 'Blog', nav_sell: 'Vendi', nav_login: 'Accedi',
+    nav_how: 'Come funziona', nav_listings: 'Annunci', nav_blog: 'Blog', nav_sell: 'Vendi', nav_login: 'Registrati',
     badge: 'Beta — Accesso anticipato',
     hero_title: 'Il marketplace<br><em>discreto</em><br>per indumenti usati',
     hero_sub: 'Compra e vendi in totale anonimato. Solo username, nessun dato personale esposto. La privacy che meriti.',
@@ -590,7 +593,7 @@ var T = {
     footer_text: 'WornSecret è una piattaforma di compravendita di indumenti usati tra privati.'
   },
   en: {
-    nav_how: 'How it works', nav_listings: 'Listings', nav_blog: 'Blog', nav_sell: 'Sell', nav_login: 'Sign in',
+    nav_how: 'How it works', nav_listings: 'Listings', nav_blog: 'Blog', nav_sell: 'Sell', nav_login: 'Sign up',
     badge: 'Beta — Early access',
     hero_title: 'The <em>discreet</em><br>marketplace for<br>used clothing',
     hero_sub: 'Buy and sell in complete anonymity. Username only, no personal data exposed. The privacy you deserve.',
@@ -707,6 +710,13 @@ function applyLang() {
 renderListings();
 updateCounter();
 if (LANG !== 'it') { document.getElementById('langBtn').textContent = 'IT'; var _lm=document.getElementById('langBtnMobile'); if(_lm)_lm.textContent='IT'; applyLang(); }
+// Auto-open modal from URL (?open=auth | ?open=sell) used by blog/articles
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var open = params.get('open');
+  if (open === 'auth') openAuth();
+  else if (open === 'sell') openSell();
+})();
 </script>
 </body>
 </html>
