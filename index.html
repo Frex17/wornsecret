@@ -24,7 +24,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .nav-links { display: flex; align-items: center; gap: 2rem; }
 .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
 .nav-links a:hover { color: var(--text); }
-.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; transition: all 0.2s; }
+.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
 .btn-nav:hover { background: var(--rose); color: #fff; }
 .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 8rem 2rem 4rem; }
 .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,118,138,0.08) 0%, transparent 70%); }
@@ -176,8 +176,8 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   .mobile-menu.open { opacity: 1; pointer-events: auto; }
   .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
   .mobile-menu a:hover { color: var(--rose); }
-  .mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); border-radius: 30px; letter-spacing: 0.15em; background: rgba(201,169,110,0.08); margin-top: 0.5rem; }
-  .mobile-menu .btn-lang:hover { background: var(--gold); color: var(--noir); }
+  .mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--border2); color: var(--text2); border-radius: 30px; letter-spacing: 0.15em; background: none; margin-top: 0.5rem; transition: all 0.15s; }
+  .mobile-menu .btn-lang:active { background: var(--gold); color: var(--noir); border-color: var(--gold); }
   .mobile-menu a.mm-register { background: var(--rose); color: #fff; padding: 12px 40px; border-radius: 30px; font-family: 'DM Sans', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; }
   .mobile-menu a.mm-register:hover { background: var(--rose2); color: #fff; }
   @media(max-width:760px){ .hamburger { display: flex; } nav .nav-right .btn-lang, nav .nav-right .btn-nav { display: none; } }
@@ -203,11 +203,11 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#come-funziona" onclick="toggleMenu()">Come funziona</a>
-  <a href="/annunci">Annunci</a>
-  <a href="/blog">Blog</a>
-  <a href="#" onclick="toggleMenu();openSell();return false;">Vendi</a>
-  <a href="#" class="mm-register" onclick="toggleMenu();openAuth();return false;">Registrati</a>
+  <a href="#come-funziona" class="mm-link" data-mm="nav_how" onclick="toggleMenu()">Come funziona</a>
+  <a href="/annunci" class="mm-link" data-mm="nav_listings" onclick="toggleMenu()">Annunci</a>
+  <a href="/blog" class="mm-link" data-mm="nav_blog" onclick="toggleMenu()">Blog</a>
+  <a href="#" class="mm-link" data-mm="nav_sell" onclick="toggleMenu();openSell();return false;">Vendi</a>
+  <a href="#" class="mm-register" data-mm="nav_login" onclick="toggleMenu();openAuth();return false;">Registrati</a>
   <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
 </div>
 
@@ -644,6 +644,8 @@ function applyLang() {
   if (navLinks[2]) navLinks[2].textContent = l.nav_blog;
   if (navLinks[3]) navLinks[3].textContent = l.nav_sell;
   document.getElementById('authBtn').textContent = l.nav_login;
+  // Mobile menu items
+  document.querySelectorAll('[data-mm]').forEach(function(el){ var k=el.getAttribute('data-mm'); if(l[k]) el.textContent=l[k]; });
   // Hero
   var badgeSpan = document.querySelector('.hero-badge-text');
   if (badgeSpan) badgeSpan.textContent = l.badge;
