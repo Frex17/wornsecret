@@ -17,7 +17,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .nav-links { display: flex; align-items: center; gap: 2rem; }
 .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
 .nav-links a:hover { color: var(--text); }
-.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
 .btn-nav:hover { background: var(--rose); color: #fff; }
 .article { max-width: 680px; margin: 0 auto; padding: 8rem 2rem 4rem; }
 .back { font-size: 13px; color: var(--text2); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 2rem; transition: color 0.2s; }
@@ -54,8 +54,8 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 .mobile-menu.open { opacity: 1; pointer-events: auto; }
 .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
 .mobile-menu a:hover { color: var(--rose); }
-.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); border-radius: 30px; letter-spacing: 0.15em; background: rgba(201,169,110,0.08); margin-top: 0.5rem; }
-.mobile-menu .btn-lang:hover { background: var(--gold); color: var(--noir); }
+.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--border2); color: var(--text2); border-radius: 30px; letter-spacing: 0.15em; background: none; margin-top: 0.5rem; transition: all 0.15s; }
+.mobile-menu .btn-lang:active { background: var(--gold); color: var(--noir); border-color: var(--gold); }
 .mobile-menu a.mm-register { background: var(--rose); color: #fff; padding: 12px 40px; border-radius: 30px; font-family: 'DM Sans', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; }
 .mobile-menu a.mm-register:hover { background: var(--rose2); color: #fff; }
 @media(max-width:760px){ .nav-links{display:none;} .nav-right .btn-lang, .nav-right .btn-nav{display:none;} .hamburger{display:flex;} }
@@ -80,22 +80,25 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
-  <a href="/annunci" data-i18n="nav_listings">Annunci</a>
-  <a href="/blog" data-i18n="nav_blog">Blog</a>
-  <a href="/?open=sell" data-i18n="nav_sell">Vendi</a>
-  <a href="/?open=auth" class="mm-register" data-i18n="nav_login">Registrati</a>
+  <a href="/#come-funziona" data-i18n="nav_how" onclick="toggleMenu()">Come funziona</a>
+  <a href="/annunci" data-i18n="nav_listings" onclick="toggleMenu()">Annunci</a>
+  <a href="/blog" data-i18n="nav_blog" onclick="toggleMenu()">Blog</a>
+  <a href="/?open=sell" data-i18n="nav_sell" onclick="toggleMenu()">Vendi</a>
+  <a href="/?open=auth" class="mm-register" data-i18n="nav_login" onclick="toggleMenu()">Registrati</a>
   <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
 </div>
 
 <article class="article">
   <a href="/blog" class="back">← Torna al blog</a>
-  <div class="article-tag">Guida</div>
-  <h1>Come vendere indumenti usati in modo anonimo in Italia</h1>
-  <div class="article-meta">📅 Maggio 2026 &nbsp;·&nbsp; ⏱ 5 min di lettura</div>
+  <div class="article-tag" data-lang-it>Guida</div>
+  <div class="article-tag" data-lang-en style="display:none">Guide</div>
+  <h1 data-lang-it>Come vendere indumenti usati in modo anonimo in Italia</h1>
+  <h1 data-lang-en style="display:none">How to sell used clothing anonymously in Italy</h1>
+  <div class="article-meta" data-lang-it>📅 Maggio 2026 &nbsp;·&nbsp; ⏱ 5 min di lettura</div>
+  <div class="article-meta" data-lang-en style="display:none">📅 May 2026 &nbsp;·&nbsp; ⏱ 5 min read</div>
 
   <img src="/blog/images/fabric.jpg" alt="Tessuto elegante seta" class="article-hero-img" />
-  <div class="article-body">
+  <div class="article-body" data-lang-it>
     <p>Vendere indumenti usati online è legale in Italia — ma farlo in modo davvero anonimo richiede attenzione su più fronti: l'identità, i pagamenti e la spedizione. Questa guida ti spiega come proteggere la tua privacy in ogni fase della vendita.</p>
 
     <h2>1. L'identità: usa sempre uno username</h2>
@@ -129,7 +132,44 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <div class="cta-box">
       <h3>Inizia a vendere su WornSecret</h3>
       <p>Username, pagamenti protetti e spedizione tramite locker. La tua privacy è garantita.</p>
-      <a href="/" class="btn-primary">Crea il tuo account gratuito</a>
+      <a href="/?open=auth" class="btn-primary">Crea il tuo account gratuito</a>
+    </div>
+  </div>
+  <div class="article-body" data-lang-en style="display:none">
+    <p>Selling used clothing online is legal in Italy — but doing it truly anonymously requires care on several fronts: identity, payments and shipping. This guide explains how to protect your privacy at every stage of the sale.</p>
+
+    <h2>1. Identity: always use a username</h2>
+    <p>The first step is to never use your real name. On whatever platform you choose, create a profile with an invented username that cannot be traced back to you. Avoid birth dates, names of places where you live, and any reference to your real life.</p>
+    <ul>
+      <li>Use a dedicated email created specifically for this, different from your personal one</li>
+      <li>Do not use the same profile photo you use on other social networks</li>
+      <li>Avoid writing identifying information in your bio</li>
+    </ul>
+
+    <h2>2. Payments: prepaid and virtual cards</h2>
+    <p>To receive payments discreetly there are several options. The most used in Italy are <strong>prepaid cards</strong> like Postepay Evolution or the <strong>virtual cards</strong> from Revolut and N26, which do not show your full name in transactions.</p>
+    <p>The important thing is to use platforms that handle payments internally — so your IBAN is never shared directly with the buyer.</p>
+
+    <h2>3. Shipping: lockers and pickup points</h2>
+    <p>Shipping is the most critical point for anonymity. If you ship from home, the courier records your address. The solution is <strong>automated lockers</strong> and <strong>pickup points</strong>:</p>
+    <ul>
+      <li><strong>Amazon Hub Locker</strong> — available throughout Italy, you can drop off and pick up parcels without interacting with anyone</li>
+      <li><strong>InPost</strong> — an expanding locker network, widely used for e-commerce shipping</li>
+      <li><strong>Poste pickup points</strong> — tobacconists and newsstands partnered with Poste Italiane</li>
+      <li><strong>SDA/BRT/GLS points</strong> — partner shops where you can drop off the parcel without going to an office</li>
+    </ul>
+    <p>This way the buyer never knows your home address, and you do not know theirs.</p>
+
+    <h2>4. Communication: keep everything on-platform</h2>
+    <p>One of the most common mistakes is moving the conversation to WhatsApp or Telegram for "convenience". This exposes your phone number and breaks anonymity. Always use the internal chat of the platform you are using.</p>
+
+    <h2>Where to sell anonymously in Italy</h2>
+    <p>International platforms like Sofia Gray or Pantydeal offer anonymity but have a mainly English-speaking audience. To sell in Italy, in Italian, with a system designed for this market, <strong>WornSecret</strong> is the first dedicated platform.</p>
+
+    <div class="cta-box">
+      <h3>Start selling on WornSecret</h3>
+      <p>Username, protected payments and locker shipping. Your privacy is guaranteed.</p>
+      <a href="/?open=auth" class="btn-primary">Create your free account</a>
     </div>
   </div>
 </article>
@@ -150,6 +190,9 @@ function applyLang(){
     var k = el.getAttribute('data-i18n');
     if(T[LANG][k]) el.textContent = T[LANG][k];
   });
+  // Article body: show the matching language block
+  document.querySelectorAll('[data-lang-it]').forEach(function(el){ el.style.display = (LANG==='it') ? '' : 'none'; });
+  document.querySelectorAll('[data-lang-en]').forEach(function(el){ el.style.display = (LANG==='en') ? '' : 'none'; });
   var lbl = LANG==='it' ? 'EN' : 'IT';
   var lb=document.getElementById('langBtn'); if(lb) lb.textContent=lbl;
   var lm=document.getElementById('langBtnMobile'); if(lm) lm.textContent=lbl;
