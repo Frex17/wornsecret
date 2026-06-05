@@ -17,7 +17,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .nav-links { display: flex; align-items: center; gap: 2rem; }
 .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
 .nav-links a:hover { color: var(--text); }
-.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
 .btn-nav:hover { background: var(--rose); color: #fff; }
 .article { max-width: 680px; margin: 0 auto; padding: 8rem 2rem 4rem; }
 .back { font-size: 13px; color: var(--text2); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 2rem; transition: color 0.2s; }
@@ -54,8 +54,8 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 .mobile-menu.open { opacity: 1; pointer-events: auto; }
 .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
 .mobile-menu a:hover { color: var(--rose); }
-.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); border-radius: 30px; letter-spacing: 0.15em; background: rgba(201,169,110,0.08); margin-top: 0.5rem; }
-.mobile-menu .btn-lang:hover { background: var(--gold); color: var(--noir); }
+.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--border2); color: var(--text2); border-radius: 30px; letter-spacing: 0.15em; background: none; margin-top: 0.5rem; transition: all 0.15s; }
+.mobile-menu .btn-lang:active { background: var(--gold); color: var(--noir); border-color: var(--gold); }
 .mobile-menu a.mm-register { background: var(--rose); color: #fff; padding: 12px 40px; border-radius: 30px; font-family: 'DM Sans', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; }
 .mobile-menu a.mm-register:hover { background: var(--rose2); color: #fff; }
 @media(max-width:760px){ .nav-links{display:none;} .nav-right .btn-lang, .nav-right .btn-nav{display:none;} .hamburger{display:flex;} }
@@ -80,22 +80,25 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
-  <a href="/annunci" data-i18n="nav_listings">Annunci</a>
-  <a href="/blog" data-i18n="nav_blog">Blog</a>
-  <a href="/?open=sell" data-i18n="nav_sell">Vendi</a>
-  <a href="/?open=auth" class="mm-register" data-i18n="nav_login">Registrati</a>
+  <a href="/#come-funziona" data-i18n="nav_how" onclick="toggleMenu()">Come funziona</a>
+  <a href="/annunci" data-i18n="nav_listings" onclick="toggleMenu()">Annunci</a>
+  <a href="/blog" data-i18n="nav_blog" onclick="toggleMenu()">Blog</a>
+  <a href="/?open=sell" data-i18n="nav_sell" onclick="toggleMenu()">Vendi</a>
+  <a href="/?open=auth" class="mm-register" data-i18n="nav_login" onclick="toggleMenu()">Registrati</a>
   <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
 </div>
 
 <article class="article">
   <a href="/blog" class="back">← Torna al blog</a>
-  <div class="article-tag">Piattaforme</div>
-  <h1>Vinted banna gli indumenti intimi usati: cosa fare e dove venderli</h1>
-  <div class="article-meta">📅 Maggio 2026 &nbsp;·&nbsp; ⏱ 4 min di lettura</div>
+  <div class="article-tag" data-lang-it>Piattaforme</div>
+  <div class="article-tag" data-lang-en style="display:none">Platforms</div>
+  <h1 data-lang-it>Vinted banna gli indumenti intimi usati: cosa fare e dove venderli</h1>
+  <h1 data-lang-en style="display:none">Vinted bans used underwear: what to do and where to sell it</h1>
+  <div class="article-meta" data-lang-it>📅 Maggio 2026 &nbsp;·&nbsp; ⏱ 4 min di lettura</div>
+  <div class="article-meta" data-lang-en style="display:none">📅 May 2026 &nbsp;·&nbsp; ⏱ 4 min read</div>
 
   <img src="/blog/images/envelope.jpg" alt="Busta sigillata anonima" class="article-hero-img" />
-  <div class="article-body">
+  <div class="article-body" data-lang-it>
     <p>Se hai mai provato a vendere calze usate, mutande o altri indumenti intimi su Vinted, probabilmente hai già incontrato il problema: il profilo viene bannato, l'annuncio rimosso, e nessuna spiegazione dettagliata. Non sei solo.</p>
 
     <h2>Cosa dice il regolamento di Vinted</h2>
@@ -127,7 +130,42 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <div class="cta-box">
       <h3>Prova WornSecret gratuitamente</h3>
       <p>Siamo in beta — iscriviti ora e inizia a pubblicare i tuoi annunci senza rischiare il ban.</p>
-      <a href="/" class="btn-primary">Crea il tuo account</a>
+      <a href="/?open=auth" class="btn-primary">Crea il tuo account</a>
+    </div>
+  </div>
+  <div class="article-body" data-lang-en style="display:none">
+    <p>If you have ever tried to sell used socks, underwear or other intimate garments on Vinted, you have probably already run into the problem: your profile gets banned, the listing removed, and no detailed explanation. You are not alone.</p>
+
+    <h2>What Vinted's rules say</h2>
+    <p>Vinted explicitly forbids the sale of <strong>"used underwear"</strong> in its terms of service, classifying it as an item that does not meet the platform's hygiene standards. This includes underwear, bras, socks, tights and any other garment in direct contact with the body that has been worn.</p>
+    <p>In practice, if you post a listing with the words "used" and "intimate" together, the automated moderation system detects it and can suspend the profile without warning.</p>
+
+    <h2>Why people do it anyway</h2>
+    <p>Despite the ban, thousands of people sell used intimate garments on Vinted every day — simply by using vague descriptions or arranging deals via private chat. The problem is that this system is unsafe for both parties:</p>
+    <ul>
+      <li>The seller risks a profile ban at any moment</li>
+      <li>The buyer has no protection if the item does not match the description</li>
+      <li>Payments happen off-platform, with no purchase protection</li>
+      <li>Many use Telegram to arrange deals, with an extremely high scam risk</li>
+    </ul>
+
+    <h2>The available alternatives</h2>
+    <p>There are international platforms dedicated to this market — Sofia Gray, Pantydeal, AllThingsWorn — but they all share the same limit: they are in English, payments are in dollars, and the Italian audience is almost absent.</p>
+    <p>For those who want to sell in Italy, in Italian, with a serious payment protection system, the options are still few.</p>
+
+    <h2>WornSecret: the Italian solution</h2>
+    <p>WornSecret was born precisely to solve this problem. An Italian platform, completely anonymous, built to allow buying and selling used clothing without the risks of Vinted and without the chaos of Telegram.</p>
+    <ul>
+      <li>Username only — no personal data exposed</li>
+      <li>Shipping via locker — no home address</li>
+      <li>Protected payments — funds are released only on delivery confirmation</li>
+      <li>Internal chat — no deals on Telegram</li>
+    </ul>
+
+    <div class="cta-box">
+      <h3>Try WornSecret for free</h3>
+      <p>We are in beta — sign up now and start posting your listings without risking a ban.</p>
+      <a href="/?open=auth" class="btn-primary">Create your account</a>
     </div>
   </div>
 </article>
@@ -148,6 +186,9 @@ function applyLang(){
     var k = el.getAttribute('data-i18n');
     if(T[LANG][k]) el.textContent = T[LANG][k];
   });
+  // Article body: show the matching language block
+  document.querySelectorAll('[data-lang-it]').forEach(function(el){ el.style.display = (LANG==='it') ? '' : 'none'; });
+  document.querySelectorAll('[data-lang-en]').forEach(function(el){ el.style.display = (LANG==='en') ? '' : 'none'; });
   var lbl = LANG==='it' ? 'EN' : 'IT';
   var lb=document.getElementById('langBtn'); if(lb) lb.textContent=lbl;
   var lm=document.getElementById('langBtnMobile'); if(lm) lm.textContent=lbl;
