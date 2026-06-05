@@ -17,7 +17,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .nav-links { display: flex; align-items: center; gap: 2rem; }
 .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
 .nav-links a:hover { color: var(--text); }
-.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
 .btn-nav:hover { background: var(--rose); color: #fff; }
 .article { max-width: 680px; margin: 0 auto; padding: 8rem 2rem 4rem; }
 .back { font-size: 13px; color: var(--text2); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 2rem; transition: color 0.2s; }
@@ -62,8 +62,8 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 .mobile-menu.open { opacity: 1; pointer-events: auto; }
 .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
 .mobile-menu a:hover { color: var(--rose); }
-.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); border-radius: 30px; letter-spacing: 0.15em; background: rgba(201,169,110,0.08); margin-top: 0.5rem; }
-.mobile-menu .btn-lang:hover { background: var(--gold); color: var(--noir); }
+.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--border2); color: var(--text2); border-radius: 30px; letter-spacing: 0.15em; background: none; margin-top: 0.5rem; transition: all 0.15s; }
+.mobile-menu .btn-lang:active { background: var(--gold); color: var(--noir); border-color: var(--gold); }
 .mobile-menu a.mm-register { background: var(--rose); color: #fff; padding: 12px 40px; border-radius: 30px; font-family: 'DM Sans', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; }
 .mobile-menu a.mm-register:hover { background: var(--rose2); color: #fff; }
 @media(max-width:760px){ .nav-links{display:none;} .nav-right .btn-lang, .nav-right .btn-nav{display:none;} .hamburger{display:flex;} .comparison-row{grid-template-columns:1fr 1fr;} }
@@ -88,22 +88,25 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
-  <a href="/annunci" data-i18n="nav_listings">Annunci</a>
-  <a href="/blog" data-i18n="nav_blog">Blog</a>
-  <a href="/?open=sell" data-i18n="nav_sell">Vendi</a>
-  <a href="/?open=auth" class="mm-register" data-i18n="nav_login">Registrati</a>
+  <a href="/#come-funziona" data-i18n="nav_how" onclick="toggleMenu()">Come funziona</a>
+  <a href="/annunci" data-i18n="nav_listings" onclick="toggleMenu()">Annunci</a>
+  <a href="/blog" data-i18n="nav_blog" onclick="toggleMenu()">Blog</a>
+  <a href="/?open=sell" data-i18n="nav_sell" onclick="toggleMenu()">Vendi</a>
+  <a href="/?open=auth" class="mm-register" data-i18n="nav_login" onclick="toggleMenu()">Registrati</a>
   <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
 </div>
 
 <article class="article">
   <a href="/blog" class="back">← Torna al blog</a>
-  <div class="article-tag">Confronto</div>
-  <h1>Alternative a Vinted per vendere intimo usato: guida 2026</h1>
-  <div class="article-meta">📅 Maggio 2026 &nbsp;·&nbsp; ⏱ 6 min di lettura</div>
+  <div class="article-tag" data-lang-it>Confronto</div>
+  <div class="article-tag" data-lang-en style="display:none">Comparison</div>
+  <h1 data-lang-it>Alternative a Vinted per vendere intimo usato: guida 2026</h1>
+  <h1 data-lang-en style="display:none">Alternatives to Vinted for selling used underwear: 2026 guide</h1>
+  <div class="article-meta" data-lang-it>📅 Maggio 2026 &nbsp;·&nbsp; ⏱ 6 min di lettura</div>
+  <div class="article-meta" data-lang-en style="display:none">📅 May 2026 &nbsp;·&nbsp; ⏱ 6 min read</div>
 
   <img src="/blog/images/envelope.jpg" alt="Alternativa marketplace" class="article-hero-img" />
-  <div class="article-body">
+  <div class="article-body" data-lang-it>
     <p>Vinted è la piattaforma più usata in Italia per vendere vestiti usati, ma vieta esplicitamente la biancheria intima usata. Chi vuole vendere calze, mutande o altri indumenti intimi deve cercare altrove. Ecco un confronto delle principali alternative disponibili nel 2026.</p>
 
     <h2>Il confronto</h2>
@@ -162,7 +165,69 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <div class="cta-box">
       <h3>Prova WornSecret</h3>
       <p>La prima alternativa italiana a Vinted per indumenti usati. Gratis per iscriversi.</p>
-      <a href="/" class="btn-primary">Iscriviti ora</a>
+      <a href="/?open=auth" class="btn-primary">Iscriviti ora</a>
+    </div>
+  </div>
+  <div class="article-body" data-lang-en style="display:none">
+    <p>Vinted is the most used platform in Italy for selling used clothes, but it explicitly bans used underwear. Those who want to sell socks, underwear or other intimate garments must look elsewhere. Here is a comparison of the main alternatives available in 2026.</p>
+
+    <h2>The comparison</h2>
+
+    <div class="comparison">
+      <div class="comparison-row header">
+        <div class="comparison-cell">Platform</div>
+        <div class="comparison-cell">Anonymity</div>
+        <div class="comparison-cell">Italian</div>
+        <div class="comparison-cell">Fees</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell"><strong>WornSecret</strong></div>
+        <div class="comparison-cell good">✓ Total</div>
+        <div class="comparison-cell good">✓ Yes</div>
+        <div class="comparison-cell mid">~12%</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">Sofia Gray</div>
+        <div class="comparison-cell mid">Partial</div>
+        <div class="comparison-cell bad">✗ English</div>
+        <div class="comparison-cell bad">$24/mo</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">Pantydeal</div>
+        <div class="comparison-cell mid">Partial</div>
+        <div class="comparison-cell bad">✗ English</div>
+        <div class="comparison-cell bad">$30/mo</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">Telegram</div>
+        <div class="comparison-cell bad">✗ None</div>
+        <div class="comparison-cell good">✓ Yes</div>
+        <div class="comparison-cell good">0%</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">Vinted</div>
+        <div class="comparison-cell bad">✗ Banned</div>
+        <div class="comparison-cell good">✓ Yes</div>
+        <div class="comparison-cell bad">Instant ban</div>
+      </div>
+    </div>
+
+    <h2>Sofia Gray</h2>
+    <p>Sofia Gray is one of the best-known international platforms for selling used intimate garments. It offers anonymous profiles and an internal messaging system. The main limit for those in Italy is that everything is in English and payments are in dollars, with a fixed monthly cost of about 24 dollars for sellers.</p>
+
+    <h2>Pantydeal</h2>
+    <p>Pantydeal is one of the largest marketplaces in the world for this type of product, with over a million users. Here too, though, the problem is the language and the monthly cost for sellers. The Italian audience is a small minority.</p>
+
+    <h2>Telegram</h2>
+    <p>Many use Telegram groups as an alternative solution. The advantage is that it is free and in Italian. The downside is that it offers no protection — no guaranteed payments, no safeguards if the item does not arrive, high scam risk. It is not a platform, it is an improvised workaround.</p>
+
+    <h2>WornSecret</h2>
+    <p>WornSecret is the first Italian platform dedicated specifically to this market. In Italian, with total anonymity, a protected payment system and locker shipping. Currently in open beta.</p>
+
+    <div class="cta-box">
+      <h3>Try WornSecret</h3>
+      <p>The first Italian alternative to Vinted for used clothing. Free to sign up.</p>
+      <a href="/?open=auth" class="btn-primary">Sign up now</a>
     </div>
   </div>
 </article>
@@ -183,6 +248,9 @@ function applyLang(){
     var k = el.getAttribute('data-i18n');
     if(T[LANG][k]) el.textContent = T[LANG][k];
   });
+  // Article body: show the matching language block
+  document.querySelectorAll('[data-lang-it]').forEach(function(el){ el.style.display = (LANG==='it') ? '' : 'none'; });
+  document.querySelectorAll('[data-lang-en]').forEach(function(el){ el.style.display = (LANG==='en') ? '' : 'none'; });
   var lbl = LANG==='it' ? 'EN' : 'IT';
   var lb=document.getElementById('langBtn'); if(lb) lb.textContent=lbl;
   var lm=document.getElementById('langBtnMobile'); if(lm) lm.textContent=lbl;
