@@ -17,7 +17,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .nav-links { display: flex; align-items: center; gap: 2rem; }
 .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
 .nav-links a:hover { color: var(--text); }
-.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.btn-nav { padding: 8px 20px; border: 1px solid var(--rose); border-radius: var(--rad); font-size: 13px; color: var(--rose); background: none; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
 .btn-nav:hover { background: var(--rose); color: #fff; }
 .article { max-width: 680px; margin: 0 auto; padding: 8rem 2rem 4rem; }
 .back { font-size: 13px; color: var(--text2); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 2rem; transition: color 0.2s; }
@@ -56,8 +56,8 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 .mobile-menu.open { opacity: 1; pointer-events: auto; }
 .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); text-decoration: none; font-weight: 300; }
 .mobile-menu a:hover { color: var(--rose); }
-.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--gold); color: var(--gold); border-radius: 30px; letter-spacing: 0.15em; background: rgba(201,169,110,0.08); margin-top: 0.5rem; }
-.mobile-menu .btn-lang:hover { background: var(--gold); color: var(--noir); }
+.mobile-menu .btn-lang { font-size: 0.95rem; padding: 12px 32px; border: 1px solid var(--border2); color: var(--text2); border-radius: 30px; letter-spacing: 0.15em; background: none; margin-top: 0.5rem; transition: all 0.15s; }
+.mobile-menu .btn-lang:active { background: var(--gold); color: var(--noir); border-color: var(--gold); }
 .mobile-menu a.mm-register { background: var(--rose); color: #fff; padding: 12px 40px; border-radius: 30px; font-family: 'DM Sans', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; }
 .mobile-menu a.mm-register:hover { background: var(--rose2); color: #fff; }
 @media(max-width:760px){ .nav-links{display:none;} .nav-right .btn-lang, .nav-right .btn-nav{display:none;} .hamburger{display:flex;} }
@@ -82,22 +82,25 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="/#come-funziona" data-i18n="nav_how">Come funziona</a>
-  <a href="/annunci" data-i18n="nav_listings">Annunci</a>
-  <a href="/blog" data-i18n="nav_blog">Blog</a>
-  <a href="/?open=sell" data-i18n="nav_sell">Vendi</a>
-  <a href="/?open=auth" class="mm-register" data-i18n="nav_login">Registrati</a>
+  <a href="/#come-funziona" data-i18n="nav_how" onclick="toggleMenu()">Come funziona</a>
+  <a href="/annunci" data-i18n="nav_listings" onclick="toggleMenu()">Annunci</a>
+  <a href="/blog" data-i18n="nav_blog" onclick="toggleMenu()">Blog</a>
+  <a href="/?open=sell" data-i18n="nav_sell" onclick="toggleMenu()">Vendi</a>
+  <a href="/?open=auth" class="mm-register" data-i18n="nav_login" onclick="toggleMenu()">Registrati</a>
   <button class="btn-lang" onclick="toggleLang()" id="langBtnMobile">EN</button>
 </div>
 
 <article class="article">
   <a href="/blog" class="back">← Torna al blog</a>
-  <div class="article-tag">Spedizioni</div>
-  <h1>Come spedire in modo anonimo con i locker in Italia</h1>
-  <div class="article-meta">📅 Maggio 2026 &nbsp;·&nbsp; ⏱ 4 min di lettura</div>
+  <div class="article-tag" data-lang-it>Spedizioni</div>
+  <div class="article-tag" data-lang-en style="display:none">Shipping</div>
+  <h1 data-lang-it>Come spedire in modo anonimo con i locker in Italia</h1>
+  <h1 data-lang-en style="display:none">How to ship anonymously with lockers in Italy</h1>
+  <div class="article-meta" data-lang-it>📅 Maggio 2026 &nbsp;·&nbsp; ⏱ 4 min di lettura</div>
+  <div class="article-meta" data-lang-en style="display:none">📅 May 2026 &nbsp;·&nbsp; ⏱ 4 min read</div>
 
   <img src="/blog/images/locker.jpg" alt="Locker anonimo spedizione" class="article-hero-img" />
-  <div class="article-body">
+  <div class="article-body" data-lang-it>
     <p>Quando vendi indumenti usati online, la spedizione è il momento più delicato per la privacy. Se spedisci da casa, il corriere registra il tuo indirizzo. Se ricevi a casa, l'acquirente conosce dove abiti. I locker risolvono entrambi i problemi.</p>
 
     <h2>Cosa sono i locker</h2>
@@ -138,7 +141,51 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
     <div class="cta-box">
       <h3>Vendi su WornSecret in totale anonimato</h3>
       <p>Spedizione tramite locker, pagamenti protetti, solo username. La tua privacy è garantita.</p>
-      <a href="/" class="btn-primary">Inizia a vendere</a>
+      <a href="/?open=auth" class="btn-primary">Inizia a vendere</a>
+    </div>
+  </div>
+  <div class="article-body" data-lang-en style="display:none">
+    <p>When you sell used clothing online, shipping is the most delicate moment for privacy. If you ship from home, the courier records your address. If you receive at home, the buyer knows where you live. Lockers solve both problems.</p>
+
+    <h2>What lockers are</h2>
+    <p>Lockers are automated cabinets where you can drop off or pick up parcels without interacting with anyone. They work 24 hours a day, do not require showing documents for pickup, and let you use a neutral address for shipping.</p>
+
+    <h2>The services available in Italy</h2>
+
+    <h3>Amazon Hub Locker</h3>
+    <p>The most widespread network in Italy. Amazon lockers are located in supermarkets, stations, shopping centres and partner shops. To use them as a delivery destination you just need an Amazon account and to select the nearest locker as the delivery address.</p>
+    <ul>
+      <li>Available in hundreds of Italian cities</li>
+      <li>Pickup with QR code in the Amazon app</li>
+      <li>Free for those receiving</li>
+      <li>Parcel available for 3 days before being returned</li>
+    </ul>
+
+    <h3>InPost</h3>
+    <p>InPost is a rapidly expanding locker network in Italy, widely used for e-commerce shipping. It allows both sending and receiving parcels. To send, you book online, bring the parcel to the locker and enter the code.</p>
+    <ul>
+      <li>Competitive shipping costs</li>
+      <li>Dedicated app to manage shipments and pickups</li>
+      <li>Growing in large cities</li>
+    </ul>
+
+    <h3>Poste Italiane pickup points</h3>
+    <p>Poste Italiane has a network of pickup points — tobacconists, newsstands, pharmacies — where you can send and receive parcels without going to a post office. They are not automated lockers but partner shops, so there is an operator, but it remains a neutral address.</p>
+
+    <h3>SDA, BRT, GLS points</h3>
+    <p>The main private couriers also have networks of pickup points where you can drop off pre-labelled parcels without the courier coming to your home. Search for "pickup points" on the website of the courier you intend to use.</p>
+
+    <div class="tip-box">
+      <p><strong>Tip:</strong> to maximise discretion, use one locker to receive and a different pickup point to send. This way not even the courier has a complete profile of your movements.</p>
+    </div>
+
+    <h2>How it works in practice on WornSecret</h2>
+    <p>On WornSecret, when you post a listing you can indicate that you ship via locker or pickup point. The buyer can do the same for receiving. This way the entire transaction — payment, shipping, receiving — happens without the two parties knowing each other or each other's addresses.</p>
+
+    <div class="cta-box">
+      <h3>Sell on WornSecret in complete anonymity</h3>
+      <p>Locker shipping, protected payments, username only. Your privacy is guaranteed.</p>
+      <a href="/?open=auth" class="btn-primary">Start selling</a>
     </div>
   </div>
 </article>
@@ -159,6 +206,9 @@ function applyLang(){
     var k = el.getAttribute('data-i18n');
     if(T[LANG][k]) el.textContent = T[LANG][k];
   });
+  // Article body: show the matching language block
+  document.querySelectorAll('[data-lang-it]').forEach(function(el){ el.style.display = (LANG==='it') ? '' : 'none'; });
+  document.querySelectorAll('[data-lang-en]').forEach(function(el){ el.style.display = (LANG==='en') ? '' : 'none'; });
   var lbl = LANG==='it' ? 'EN' : 'IT';
   var lb=document.getElementById('langBtn'); if(lb) lb.textContent=lbl;
   var lm=document.getElementById('langBtnMobile'); if(lm) lm.textContent=lbl;
