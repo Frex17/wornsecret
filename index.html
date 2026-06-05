@@ -62,22 +62,20 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .step-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
 .listings-section { padding: 6rem 2rem; background: var(--deep); }
 .listings-inner { max-width: 1000px; margin: 0 auto; }
-.listings-grid { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-top: 3rem; padding-bottom: 1rem; scrollbar-width: thin; }
-.listings-grid::-webkit-scrollbar { height: 6px; }
-.listings-grid::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-.listing-card { flex: 0 0 calc(25% - 0.75rem); scroll-snap-align: start; border: 1px solid var(--border); border-radius: var(--rad-lg); overflow: hidden; }
-@media(max-width:900px){ .listing-card { flex: 0 0 calc(50% - 0.5rem); } }
-@media(max-width:560px){ .listing-card { flex: 0 0 calc(80% - 0.5rem); } }
-.listing-card { background: var(--noir); cursor: pointer; transition: background 0.2s, transform 0.2s; }
-.listing-card:hover { background: var(--mid); }
-.listing-img { width: 100%; aspect-ratio: 1; background: var(--surface); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-.listing-img-placeholder { font-size: 40px; opacity: 0.3; }
+.listings-grid { display: flex; gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-top: 3rem; padding-bottom: 0.5rem; scrollbar-width: none; -ms-overflow-style: none; }
+.listings-grid::-webkit-scrollbar { display: none; height: 0; }
+.listing-card { flex: 0 0 calc(25% - 0.94rem); scroll-snap-align: start; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: linear-gradient(160deg, var(--deep), var(--noir)); cursor: pointer; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
+@media(max-width:900px){ .listing-card { flex: 0 0 calc(50% - 0.63rem); } }
+@media(max-width:560px){ .listing-card { flex: 0 0 calc(82% - 0.5rem); } }
+.listing-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.4); border-color: var(--rose); }
+.listing-img { width: 100%; aspect-ratio: 4 / 3; background: radial-gradient(circle at 50% 40%, rgba(201,118,138,0.10), var(--surface)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.listing-img-placeholder { font-size: 30px; opacity: 0.45; }
 .listing-blur { position: absolute; inset: 0; backdrop-filter: blur(12px); background: rgba(13,11,14,0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; }
-.listing-info { padding: 12px 14px; }
-.listing-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.listing-info { padding: 1rem 1.1rem 1.2rem; }
+.listing-title { font-size: 1.05rem; font-weight: 500; margin: 6px 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .listing-meta { display: flex; justify-content: space-between; align-items: center; }
-.listing-price { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--rose2); }
-.listing-seller { font-size: 11px; color: var(--text3); }
+.listing-price { font-family: 'DM Sans', sans-serif; font-size: 1.15rem; font-weight: 600; color: var(--rose); }
+.listing-seller { font-size: 12px; color: var(--text3); }
 .listing-tag { display: inline-block; padding: 2px 8px; background: rgba(201,118,138,0.1); border: 1px solid rgba(201,118,138,0.2); border-radius: 20px; font-size: 10px; color: var(--rose); margin-bottom: 6px; }
 .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 24px; margin-top: 3rem; }
 .feature { padding: 1.5rem; border: 1px solid var(--border); border-radius: var(--rad-lg); background: var(--deep); }
@@ -558,7 +556,7 @@ function renderListings() {
     html += '</div><div class="listing-info">';
     html += '<div class="listing-tag">' + l.cat + '</div>';
     html += '<div class="listing-title">' + l.title + '</div>';
-    html += '<div class="listing-meta"><div class="listing-price">euro' + l.price + '</div><div class="listing-seller">@' + l.seller + '</div></div>';
+    html += '<div class="listing-meta"><div class="listing-price">€' + l.price + '</div><div class="listing-seller">@' + l.seller + '</div></div>';
     html += '</div></div>';
   }
   document.getElementById('listingsGrid').innerHTML = html;
