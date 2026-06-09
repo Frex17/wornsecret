@@ -302,6 +302,32 @@ var LISTINGS = [
 ];
 
 var CATS = ['Tutti','Calze','Mutande','Collant','Altro'];
+var CAT_EN = {'Tutti':'All','Calze':'Socks','Mutande':'Underwear','Collant':'Tights','Altro':'Other'};
+var GENDER_EN = {'Donna':'Woman','Uomo':'Man'};
+var TITLE_EN = {
+  'Calze sportive usate':'Used sports socks',
+  'Mutandine cotone':'Cotton panties',
+  'Collant 40 denari':'40 denier tights',
+  'Calze lunghe lana':'Long wool socks',
+  'Set intimo usato':'Used lingerie set',
+  'Calzini bianchi':'White socks',
+  'Collant velati neri':'Sheer black tights',
+  'Boxer sportivi':'Sports boxers',
+  'Calze a rete':'Fishnet stockings',
+  'Slip in pizzo':'Lace briefs',
+  'Collant coprenti':'Opaque tights',
+  'Calzini fantasia':'Patterned socks'
+};
+function catLabel(cat){ return LANG==='en' ? (CAT_EN[cat]||cat) : cat; }
+function titleLabel(t){ return LANG==='en' ? (TITLE_EN[t]||t) : t; }
+function genderLabel(g){ return LANG==='en' ? (GENDER_EN[g]||g) : g; }
+function ageLabel(a){
+  if(LANG!=='en') return a;
+  // 'indossate 3gg' / 'indossati 1gg' / 'indossato 2gg' -> 'worn 3d'
+  var m=a.match(/(\d+)gg/);
+  return m ? ('worn '+m[1]+'d') : a;
+}
+function regionLabel(r){ return r; }
 var activeCat = 'Tutti';
 var activeTab = 'explore';
 var saved = [];
@@ -354,7 +380,7 @@ function renderCats(){
   var html='';
   for(var i=0;i<CATS.length;i++){
     var c=CATS[i];
-    html+='<button class="pill'+(c===activeCat?' active':'')+'" onclick="setCat(\''+c+'\')">'+c+'</button>';
+    html+='<button class="pill'+(c===activeCat?' active':'')+'" onclick="setCat(\''+c+'\')">'+catLabel(c)+'</button>';
   }
   document.getElementById('catPills').innerHTML=html;
 }
@@ -397,14 +423,14 @@ function applyFilters(){
     html+='<div class="listing-card'+(l.locked?' listing-locked':'')+'">';
     html+='<div class="listing-img" onclick="cardClick('+l.id+')">';
     html+='<span class="listing-img-emoji">'+l.emoji+'</span>';
-    html+='<span class="card-badge">'+l.cat+'</span>';
+    html+='<span class="card-badge">'+catLabel(l.cat)+'</span>';
     html+='<button class="card-save'+(isSaved?' saved':'')+'" onclick="event.stopPropagation();toggleSave('+l.id+')">'+(isSaved?'♥':'♡')+'</button>';
     if(l.locked) html+='<div class="lock-overlay"><div class="lock-ico">🔒</div><div class="lock-txt">'+t('locked_txt')+'</div></div>';
     html+='</div>';
     html+='<div class="listing-info" onclick="cardClick('+l.id+')">';
-    html+='<div class="listing-cat">'+l.cat+'</div>';
-    html+='<div class="listing-title">'+l.title+'</div>';
-    html+='<div class="listing-detail">'+l.gender+' · '+l.age+' · 📍'+l.region+'</div>';
+    html+='<div class="listing-cat">'+catLabel(l.cat)+'</div>';
+    html+='<div class="listing-title">'+titleLabel(l.title)+'</div>';
+    html+='<div class="listing-detail">'+genderLabel(l.gender)+' · '+ageLabel(l.age)+' · 📍'+l.region+'</div>';
     html+='<div class="listing-price"><span class="cur">€</span>'+l.price+'</div>';
     html+='</div>';
     html+='<div class="card-footer">';
@@ -436,13 +462,13 @@ function cardClick(id){
 function openDetail(l){
   var html='<button class="modal-close" onclick="closeModal(\'detailOverlay\')">&times;</button>';
   html+='<div class="detail-img">'+l.emoji+'</div>';
-  html+='<div class="listing-cat">'+l.cat+'</div>';
-  html+='<h2 class="modal-title">'+l.title+'</h2>';
+  html+='<div class="listing-cat">'+catLabel(l.cat)+'</div>';
+  html+='<h2 class="modal-title">'+titleLabel(l.title)+'</h2>';
   html+='<div class="detail-price"><span style="color:var(--rose)">€</span>'+l.price+'</div>';
-  html+='<div class="detail-row"><span class="k">Venditore</span><span class="v">@'+l.seller+'</span></div>';
-  html+='<div class="detail-row"><span class="k">Genere</span><span class="v">'+l.gender+'</span></div>';
-  html+='<div class="detail-row"><span class="k">Condizione</span><span class="v">'+l.age+'</span></div>';
-  html+='<div class="detail-row"><span class="k">Regione</span><span class="v">'+l.region+'</span></div>';
+  html+='<div class="detail-row"><span class="k">'+(LANG==='en'?'Seller':'Venditore')+'</span><span class="v">@'+l.seller+'</span></div>';
+  html+='<div class="detail-row"><span class="k">'+(LANG==='en'?'Gender':'Genere')+'</span><span class="v">'+genderLabel(l.gender)+'</span></div>';
+  html+='<div class="detail-row"><span class="k">'+(LANG==='en'?'Condition':'Condizione')+'</span><span class="v">'+ageLabel(l.age)+'</span></div>';
+  html+='<div class="detail-row"><span class="k">'+(LANG==='en'?'Region':'Regione')+'</span><span class="v">'+l.region+'</span></div>';
   html+='<button class="btn-full" style="margin-top:1.5rem;" onclick="closeModal(\'detailOverlay\');openAuth();">'+(LANG==='it'?'Registrati per contattare':'Sign up to contact')+'</button>';
   document.getElementById('detailModal').innerHTML=html;
   document.getElementById('detailOverlay').classList.add('open');
@@ -531,6 +557,9 @@ function applyLang(){
   document.getElementById('authSub').textContent=l.auth_sub;
   document.getElementById('footerText').textContent=l.footer_text;
   document.getElementById('footerHow').textContent=l.nav_how;
+  // Region dropdown: translate the "all regions" option
+  var regSel=document.getElementById('regionSelect');
+  if(regSel && regSel.options[0]) regSel.options[0].textContent = (LANG==='en'?'All regions':'Tutte le regioni');
   applyFilters();
 }
 
