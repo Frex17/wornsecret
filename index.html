@@ -435,6 +435,19 @@ var LISTINGS = [
   { title: 'Collant velati neri', price: 11, seller: 'mystic_v', cat: 'Collant', blur: false, emoji: '🩱' },
   { title: 'Boxer sportivi', price: 14, seller: 'kilo_88', cat: 'Mutande', blur: true, emoji: '🩲' }
 ];
+var HP_CAT_EN = { 'Calze':'Socks', 'Mutande':'Underwear', 'Collant':'Tights', 'Altro':'Other' };
+var HP_TITLE_EN = {
+  'Calze sportive usate':'Used sports socks',
+  'Mutandine cotone':'Cotton panties',
+  'Collant 40 denari':'40 denier tights',
+  'Calze lunghe lana':'Long wool socks',
+  'Set intimo usato':'Used lingerie set',
+  'Calzini bianchi':'White socks',
+  'Collant velati neri':'Sheer black tights',
+  'Boxer sportivi':'Sports boxers'
+};
+function hpCat(cat){ return (typeof LANG!=='undefined' && LANG==='en') ? (HP_CAT_EN[cat]||cat) : cat; }
+function hpTitle(t){ return (typeof LANG!=='undefined' && LANG==='en') ? (HP_TITLE_EN[t]||t) : t; }
 
 function openAuth() { document.getElementById('authOverlay').classList.add('open'); }
 function openSell() { document.getElementById('sellOverlay').classList.add('open'); }
@@ -554,8 +567,8 @@ function renderListings() {
     html += '<div class="listing-img"><span class="listing-img-placeholder">' + l.emoji + '</span>';
     if (l.blur) html += '<div class="listing-blur">🔒</div>';
     html += '</div><div class="listing-info">';
-    html += '<div class="listing-tag">' + l.cat + '</div>';
-    html += '<div class="listing-title">' + l.title + '</div>';
+    html += '<div class="listing-tag">' + hpCat(l.cat) + '</div>';
+    html += '<div class="listing-title">' + hpTitle(l.title) + '</div>';
     html += '<div class="listing-meta"><div class="listing-price">€' + l.price + '</div><div class="listing-seller">@' + l.seller + '</div></div>';
     html += '</div></div>';
   }
@@ -704,6 +717,8 @@ function applyLang() {
   // Modals
   document.querySelector('.modal-title').textContent = l.modal_welcome;
   document.querySelector('.modal-sub').textContent = l.modal_sub;
+  // Re-render listing cards so categories/titles follow the language
+  if (typeof renderListings === 'function') renderListings();
 }
 
 
