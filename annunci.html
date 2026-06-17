@@ -91,9 +91,9 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 
 .empty-state .empty-ico { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
 
 /* MODAL */
-.overlay { position: fixed; inset: 0; background: rgba(5,4,6,0.8); backdrop-filter: blur(6px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+.overlay { position: fixed; inset: 0; background: rgba(5,4,6,0.8); backdrop-filter: blur(6px); z-index: 200; display: none; align-items: flex-start; justify-content: center; padding: 1.5rem; overflow-y: auto; }
 .overlay.open { display: flex; }
-.modal { background: var(--deep); border: 1px solid var(--border2); border-radius: var(--rad-lg); max-width: 440px; width: 100%; padding: 2.5rem; position: relative; max-height: 90vh; overflow-y: auto; }
+.modal { background: var(--deep); border: 1px solid var(--border2); border-radius: var(--rad-lg); max-width: 440px; width: 100%; padding: 2rem; position: relative; max-height: calc(100vh - 3rem); overflow-y: auto; margin: auto; -webkit-overflow-scrolling: touch; }
 .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--text3); font-size: 1.5rem; cursor: pointer; line-height: 1; }
 .modal-close:hover { color: var(--text); }
 .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; margin-bottom: 0.5rem; }
@@ -151,6 +151,15 @@ footer { border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: ce
   .region-select { width: 100%; }
 }
 @media(max-width:460px){ .listings-grid { grid-template-columns: 1fr; } }
+
+.modal::-webkit-scrollbar { width: 6px; }
+.modal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+.modal .btn-full { margin-top: 0.5rem; }
+@media(max-width:600px){
+  .overlay { padding: 0; align-items: stretch; }
+  .modal { max-width: 100%; min-height: 100vh; max-height: 100vh; border-radius: 0; padding: 1.5rem 1.25rem 2rem; margin: 0; }
+  .modal-close { top: 0.75rem; right: 0.75rem; font-size: 1.75rem; }
+}
 </style>
 </head>
 <body>
