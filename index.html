@@ -90,9 +90,9 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
 .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; letter-spacing: 0.15em; margin-bottom: 1rem; }
 .footer-logo span { color: var(--rose); }
 .footer-text { font-size: 12px; color: var(--text3); line-height: 1.7; max-width: 400px; margin: 0 auto; }
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 1rem; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 200; display: none; align-items: flex-start; justify-content: center; padding: 1.5rem; overflow-y: auto; }
 .overlay.open { display: flex; }
-.modal { background: var(--deep); border: 1px solid var(--border2); border-radius: var(--rad-lg); padding: 2.5rem; width: 100%; max-width: 420px; position: relative; animation: modalIn 0.25s ease; }
+.modal { background: var(--deep); border: 1px solid var(--border2); border-radius: var(--rad-lg); padding: 2rem; width: 100%; max-width: 420px; position: relative; animation: modalIn 0.25s ease; max-height: calc(100vh - 3rem); overflow-y: auto; margin: auto; -webkit-overflow-scrolling: touch; }
 .modal.wide { max-width: 500px; }
 @keyframes modalIn { from{opacity:0;transform:scale(0.95);}to{opacity:1;transform:scale(1);} }
 .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--text3); font-size: 22px; cursor: pointer; line-height: 1; padding: 4px; }
@@ -181,6 +181,14 @@ footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: ce
   @media(max-width:760px){ .hamburger { display: flex; } nav .nav-right .btn-lang, nav .nav-right .btn-nav { display: none; } }
 
   .btn-lang:hover { border-color: var(--rose); color: var(--rose); }
+
+.modal::-webkit-scrollbar { width: 6px; }
+.modal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+@media(max-width:600px){
+  .overlay { padding: 0; align-items: stretch; }
+  .modal { max-width: 100%; min-height: 100vh; max-height: 100vh; border-radius: 0; padding: 1.5rem 1.25rem 2rem; margin: 0; }
+  .modal-close { top: 0.75rem; right: 0.75rem; font-size: 1.75rem; }
+}
 </style>
 </head>
 <body>
