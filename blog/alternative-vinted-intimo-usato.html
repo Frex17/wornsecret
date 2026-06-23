@@ -2,7 +2,17 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#0d0b0e" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="WornSecret" />
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+
 <title>Alternative a Vinted per vendere intimo usato: guida 2026 — WornSecret</title>
 <meta name="description" content="Confronto tra le migliori piattaforme per vendere indumenti intimi usati in Italia nel 2026. Sicurezza, anonimato, commissioni e facilità d'uso a confronto." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -259,5 +269,98 @@ function toggleLang(){ LANG = LANG==='it'?'en':'it'; localStorage.setItem('ws_la
 function toggleMenu(){ document.getElementById('hamburger').classList.toggle('open'); document.getElementById('mobileMenu').classList.toggle('open'); }
 applyLang();
 </script>
+<!-- PWA: install banner -->
+<div id="pwaBanner" style="display:none;position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:9999;width:calc(100% - 2rem);max-width:440px;background:#1a1520;border:1px solid rgba(255,255,255,0.13);border-radius:12px;padding:14px 16px;box-shadow:0 12px 40px rgba(0,0,0,0.5);font-family:'DM Sans',sans-serif;">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <img src="/icons/icon-96x96.png" alt="WornSecret" style="width:44px;height:44px;border-radius:10px;flex-shrink:0;" />
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:14px;color:#f0ebe8;font-weight:500;" id="pwaBannerTitle">Installa WornSecret</div>
+      <div style="font-size:12px;color:#a89fa8;line-height:1.4;" id="pwaBannerText">Aggiungilo alla schermata home per un accesso rapido e discreto.</div>
+    </div>
+    <button id="pwaClose" aria-label="Chiudi" style="background:none;border:none;color:#6a626a;font-size:20px;cursor:pointer;padding:4px;line-height:1;">&times;</button>
+  </div>
+  <div id="pwaActions" style="display:flex;gap:8px;margin-top:12px;">
+    <button id="pwaInstall" style="flex:1;padding:10px;background:#c9768a;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Installa</button>
+  </div>
+  <div id="pwaIosHelp" style="display:none;margin-top:12px;font-size:12px;color:#a89fa8;line-height:1.6;">
+    Tocca <strong style="color:#e8a0b0;">Condividi</strong> in basso, poi <strong style="color:#e8a0b0;">"Aggiungi a Home"</strong>.
+  </div>
+</div>
+
+<script>
+(function(){
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('/sw.js').then(function(reg){
+        console.log('[WornSecret] SW registrato:', reg.scope);
+      }).catch(function(e){ console.log('[WornSecret] SW errore:', e); });
+    });
+  }
+
+  var LANG = (localStorage.getItem('ws_lang') || 'it');
+  var TXT = {
+    it: { title:'Installa WornSecret', text:'Aggiungilo alla schermata home per un accesso rapido e discreto.', install:'Installa',
+          ios:'Tocca <strong style="color:#e8a0b0;">Condividi</strong> in basso, poi <strong style="color:#e8a0b0;">"Aggiungi a Home"</strong>.' },
+    en: { title:'Install WornSecret', text:'Add it to your home screen for quick, discreet access.', install:'Install',
+          ios:'Tap <strong style="color:#e8a0b0;">Share</strong> below, then <strong style="color:#e8a0b0;">"Add to Home Screen"</strong>.' }
+  };
+  function t(k){ return (TXT[LANG]||TXT.it)[k]; }
+
+  var banner = document.getElementById('pwaBanner');
+  var deferredPrompt = null;
+  var SNOOZE_KEY = 'ws_pwa_snooze';
+
+  function snoozed(){
+    var v = localStorage.getItem(SNOOZE_KEY);
+    return v && (Date.now() - parseInt(v)) < 7*24*60*60*1000; // 7 giorni
+  }
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  }
+  function isIos(){
+    return /iphone|ipad|ipod/i.test(window.navigator.userAgent) && !window.MSStream;
+  }
+  function showBanner(iosMode){
+    if (snoozed() || isStandalone()) return;
+    document.getElementById('pwaBannerTitle').textContent = t('title');
+    document.getElementById('pwaBannerText').textContent = t('text');
+    document.getElementById('pwaInstall').textContent = t('install');
+    if (iosMode){
+      document.getElementById('pwaActions').style.display = 'none';
+      var ios = document.getElementById('pwaIosHelp');
+      ios.innerHTML = t('ios');
+      ios.style.display = 'block';
+    }
+    banner.style.display = 'block';
+  }
+  function hideBanner(){ banner.style.display = 'none'; }
+
+  // Android / Chrome
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+    setTimeout(function(){ showBanner(false); }, 2000);
+  });
+
+  document.getElementById('pwaInstall').addEventListener('click', function(){
+    if (deferredPrompt){
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(){ deferredPrompt = null; hideBanner(); });
+    }
+  });
+
+  document.getElementById('pwaClose').addEventListener('click', function(){
+    localStorage.setItem(SNOOZE_KEY, String(Date.now()));
+    hideBanner();
+  });
+
+  // iOS: no beforeinstallprompt, show manual instructions
+  if (isIos() && !isStandalone()){
+    setTimeout(function(){ showBanner(true); }, 2500);
+  }
+})();
+</script>
+
 </body>
 </html>
