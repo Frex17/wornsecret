@@ -61,7 +61,8 @@ Stato: beta, ~6 iscritti reali arrivati col passaparola.
 - [x] RLS sulla tabella `counter`. Fatto 22/11/2026 (migrazione `lock_down_counter`): RLS attivo, resta la policy di sola lettura per tutti; `increment_counter()` eseguibile solo da `service_role`. La chiave secret usata da `api/counter.js` non è toccata.
 - [ ] Evitare che Supabase rimetta in pausa il progetto (piano gratuito, pausa dopo inattività): job periodico che usa il DB, oppure piano Pro.
 - [x] Rotazione chiave secret Supabase. Fatto 22/11/2026: chiave nuova creata, `SUPABASE_SERVICE_KEY` aggiornata su Vercel con redeploy, chiave vecchia rimossa. Contatore verificato dopo ogni passo.
-- [ ] Dati Google Search Console: indicizzazione delle 7 pagine.
+- [x] Dati Google Search Console. Controllato 22/11/2026: 3 pagine indicizzate su 7 (`/`, `vinted-banna`, `alternative-vinted`), `/?open=sell` escluso come duplicato. Sitemap inviata di nuovo (stato "Riuscita", 7 pagine), aggiunti `<link rel="canonical">` nelle 7 pagine e `robots.txt` con la sitemap. Ricontrollare tra 1-2 settimane.
+- [x] `blog/alternative-vinted-intimo-usato.html` conteneva l'articolo sui locker (sovrascritto nel commit `2342363` del 23/06/2026). Ripristinato il 22/11/2026 dal commit `e164b8a`, con canonical e `safe-area` attuali.
 
 ## Idee di miglioramento in coda
 
