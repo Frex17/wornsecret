@@ -60,7 +60,7 @@ Stato: beta, ~6 iscritti reali arrivati col passaparola.
 - [x] Il contatore funziona ancora? Fatto 22/11/2026. Era rotto perché il progetto Supabase (piano gratuito) era in pausa per inattività, non per il cambio della Data API. Progetto riattivato. Ora `api/counter.js` risponde 502 se Supabase non va (prima mostrava un falso 0) e la homepage lascia `... / 20`.
 - [x] RLS sulla tabella `counter`. Fatto 22/11/2026 (migrazione `lock_down_counter`): RLS attivo, resta la policy di sola lettura per tutti; `increment_counter()` eseguibile solo da `service_role`. La chiave secret usata da `api/counter.js` non è toccata.
 - [ ] Evitare che Supabase rimetta in pausa il progetto (piano gratuito, pausa dopo inattività): job periodico che usa il DB, oppure piano Pro.
-- [ ] La chiave secret Supabase è comparsa in screenshot condivisi. Valutare di ruotarla e aggiornare la env var su Vercel.
+- [x] Rotazione chiave secret Supabase. Fatto 22/11/2026: chiave nuova creata, `SUPABASE_SERVICE_KEY` aggiornata su Vercel con redeploy, chiave vecchia rimossa. Contatore verificato dopo ogni passo.
 - [ ] Dati Google Search Console: indicizzazione delle 7 pagine.
 
 ## Idee di miglioramento in coda
