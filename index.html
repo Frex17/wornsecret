@@ -491,8 +491,8 @@ function showSuccess(icon, title, text) {
 function getCount() {
   return fetch('/api/counter')
     .then(function(r) { return r.json(); })
-    .then(function(d) { return typeof d.value === 'number' ? d.value : 0; })
-    .catch(function() { return 0; });
+    .then(function(d) { return typeof d.value === 'number' ? d.value : null; })
+    .catch(function() { return null; });
 }
 function incrementCount() {
   return fetch('/api/counter', { method: 'POST' })
@@ -502,6 +502,7 @@ function incrementCount() {
 }
 function updateCounter() {
   getCount().then(function(count) {
+    if (count === null) return; // counter down: keep the "... / 20" placeholder
     var goal = count >= GOAL1 ? GOAL2 : GOAL1;
     var pct = Math.min((count / goal) * 100, 100);
     document.getElementById('counterNum').textContent = count + ' / ' + goal;

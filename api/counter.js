@@ -11,20 +11,32 @@ export default async function handler(req, res) {
     'Content-Type': 'application/json'
   };
 
-  if (req.method === 'GET') {
-    // Get current count
-    const r = await fetch(SUPABASE_URL + '/rest/v1/counter?select=value&limit=1', { headers });
-    const d = await r.json();
-    return res.json({ value: d[0] ? d[0].value : 0 });
-  }
+  try {
+    if (req.method === 'GET') {
+      // Get current count
+      const r = await fetch(SUPABASE_URL + '/rest/v1/counter?select=value&limit=1', { headers });
+      const d = await r.json();
+      if (!r.ok || !Array.isArray(d) || !d[0] || typeof d[0].value !== 'number') {
+        throw new Error('Supabase GET ' + r.status + ': ' + JSON.stringify(d));
+      }
+      return res.json({ value: d[0].value });
+    }
 
-  if (req.method === 'POST') {
-    // Increment via RPC
-    const r = await fetch(SUPABASE_URL + '/rest/v1/rpc/increment_counter', {
-      method: 'POST', headers, body: JSON.stringify({})
-    });
-    const val = await r.json();
-    return res.json({ value: val });
+    if (req.method === 'POST') {
+      // Increment via RPC
+      const r = await fetch(SUPABASE_URL + '/rest/v1/rpc/increment_counter', {
+        method: 'POST', headers, body: JSON.stringify({})
+      });
+      const val = await r.json();
+      if (!r.ok || typeof val !== 'number') {
+        throw new Error('Supabase POST ' + r.status + ': ' + JSON.stringify(val));
+      }
+      return res.json({ value: val });
+    }
+  } catch (err) {
+    // Never report a fake 0: surface the error so the page can hide the counter
+    console.error(err);
+    return res.status(502).json({ error: 'counter unavailable' });
   }
 
   res.status(405).end();
